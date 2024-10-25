@@ -122,7 +122,7 @@ const Header = ({ setShowText, setShowmap,setShowReselt }) => {
     },
   ];
   const handleRedirectToShipments = () => {
-    // navigate("/");
+    navigate("/");
     setShowmap(false);
     setShowText(false);
   };
