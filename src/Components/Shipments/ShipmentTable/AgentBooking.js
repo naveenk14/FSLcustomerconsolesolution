@@ -24,8 +24,9 @@ import "../../Dashboard/ShipmentHistory/ShipmentHistory.css";
 import shipgif from "../../../assets/shiploadinggif.gif";
 import { IoCloseCircleSharp } from "react-icons/io5";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import { custom_data } from "./CustomData";
 
-const AllBookings = ({
+const AgentBookings = ({
   filterData,
   filterValue,
   currentPage,
@@ -39,7 +40,6 @@ const AllBookings = ({
   setscrollHeight,
   popoverVisible,
   setPopoverVisible,
-  bookingData
 }) => {
   const itemsPerPage = 5;
   const dispatch = useDispatch();
@@ -49,16 +49,13 @@ const AllBookings = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalRowData, setModalRowData] = useState(null);
   const { loading } = useSelector((state) => state.Booking);
-  const { agent_exist } = useSelector((state) => state.AgentExist);
-  console.log(agent_exist)
-  console.log(filterData)
   // const [showAllData, setshowAllData] = useState(false)
   // const [scrollHeight, setscrollHeight] = useState("653px")
   const [selectfield, setselectfield] = useState("");
   console.log(showMore);
   const [tblFilter, setTblFilter] = useState({
     id: [],
-    shipper_ref_no: [],
+    order_no: [],
     mode: [],
     origin: [],
     destination: [],
@@ -151,7 +148,7 @@ const AllBookings = ({
   }, [clicked]);
 
   const ShipId = getUniqueOptions(data, "id");
-  const shipperId_ = getUniqueOptions(data, "shipper_ref_no");
+  const orderId_ = getUniqueOptions(data, "order_no");
   const Mode_ = getUniqueOptions(data, "mode");
   const Org_ = getUniqueOptions(data, "origin");
   const dest_ = getUniqueOptions(data, "destination");
@@ -163,7 +160,7 @@ const AllBookings = ({
     if (field === "all") {
       setTblFilter({
         id: [],
-        shipper_ref_no: [],
+        order_no: [],
         mode: [],
         origin: [],
         destination: [],
@@ -183,7 +180,7 @@ const AllBookings = ({
     if (selectedStatus !== null) {
       setTblFilter({
         id: [],
-        shipper_ref_no: [],
+        order_no: [],
         mode: [],
         origin: [],
         destination: [],
@@ -249,6 +246,7 @@ const AllBookings = ({
   };
 
   const actionBodyTemplate = (rowData) => {
+    console.log(rowData);
     let buttonLabel;
     let btnClass;
     if (rowData.action === "Track") {
@@ -283,12 +281,12 @@ const AllBookings = ({
     return (
       <div style={{ textAlign: "start" }}>
         <span className="">
-          {rowData?.shipper_ref_no?.length <= 20 ? (
-            rowData?.shipper_ref_no
+          {rowData?.order_no?.length <= 20 ? (
+            rowData?.order_no
           ) : (
-            <Tooltip placement="topLeft" title={rowData?.shipper_ref_no}>
+            <Tooltip placement="topLeft" title={rowData?.order_no}>
               <span role="button">
-                {rowData?.shipper_ref_no?.slice(0, 20)?.trim()?.split(" ")?.join("") +
+                {rowData?.order_no?.slice(0, 20)?.trim()?.split(" ")?.join("") +
                   ".."}
               </span>
             </Tooltip>
@@ -301,10 +299,10 @@ const AllBookings = ({
     return (
       <div style={{ textAlign: "start" }}>
         <span className="">
-          {rowData?.id?.length <= 20 ? (
-            rowData?.id
+          {rowData?.container_id?.length <= 20 ? (
+            rowData?.container_id
           ) : (
-            <Tooltip placement="topLeft" title={rowData?.id}>
+            <Tooltip placement="topLeft" title={rowData?.container_id}>
               <span role="button">
                 {rowData?.id?.slice(0, 20)?.trim()?.split(" ")?.join("") + ".."}
               </span>
@@ -317,7 +315,15 @@ const AllBookings = ({
   const originBodyTemplate = (rowData) => {
     return (
       <div className="origin-cell" style={{ textAlign: "start" }}>
-        <CountryFlag styleData={{boxShadow:"1px 1px 1.5px 0px"}} countryCode={rowData?.origin_countrycode} />
+        <CountryFlag
+          styleData={{
+            boxShadow:
+              rowData?.origin_countrycode === "SG"
+                ? "1px 1px 5px rgba(0,0,0,0.3"
+                : "",
+          }}
+          countryCode={rowData?.origin_countrycode}
+        />
         <span
           style={{
             paddingLeft: "8px",
@@ -343,7 +349,7 @@ const AllBookings = ({
   const destinationBodyTemplate = (rowData) => {
     return (
       <div className="origin-cell" style={{ textAlign: "start" }}>
-        <CountryFlag styleData={{boxShadow:"1px 1px 1.5px 0px"}} countryCode={rowData?.destination_countrycode} />
+        <CountryFlag countryCode={rowData?.destination_countrycode} />
         <span
           style={{ paddingLeft: "8px", fontWeight: "400", textWrap: "wrap" }}
         >
@@ -365,10 +371,7 @@ const AllBookings = ({
     );
   };
   const bodyTemplate = (rowData) => {
-    const {
-      actual_departure,
-      estimated_departure,
-    } = rowData;
+    const { actual_departure, estimated_departure } = rowData;
     // Variable to store the result
     let dayDifference = "";
 
@@ -449,10 +452,7 @@ const AllBookings = ({
   };
 
   const bodyTemplateEta = (rowData) => {
-    const {
-      actuval_arrival,
-      estimated_arrival,
-    } = rowData;
+    const { actuval_arrival, estimated_arrival } = rowData;
     // Variable to store the result
     let dayDifference = "";
 
@@ -470,6 +470,7 @@ const AllBookings = ({
     }
 
     console.log(dayDifference); // Will print the result or an empty string
+
     const getArrivalMessage = () => {
       if (dayDifference === "") return null;
       if (dayDifference === 0) return { color: "#00c500" };
@@ -604,11 +605,7 @@ const AllBookings = ({
       </div>
     );
   };
-
-  
-  console.log(loading,paginatedData)
-  console.log(filterData)
-  if ((loading && paginatedData?.length === 0) || (!loading && paginatedData?.length === 0)){
+  if (loading) {
     return (
       <Box
         sx={{
@@ -623,10 +620,6 @@ const AllBookings = ({
         <img src={shipgif} width="140px" height="140px" />
       </Box>
     );
-  }
-  else if(!loading && paginatedData?.length === 0){
-    console.log("worked")
-    return;
   }
   const FilterTag = ({ field, filterValues, handleChangeFilter }) => {
     const popoverRef = useRef(null); // Reference for the popover
@@ -698,7 +691,6 @@ const AllBookings = ({
       );
     };
 
-
     const handleDeleteValue = (field, value) => {
       console.log(field, value);
       const newValues = filterValues.filter((item) => item !== value);
@@ -727,7 +719,7 @@ const AllBookings = ({
                 rounded
               >
                 <div style={{ position: "relative" }}>
-                  {field === "shipper_ref_no" ? "Shipper No" : ""}
+                  {field === "order_no" ? "Order No" : ""}
                   {field === "id" ? "Shipment Id" : ""}
                   {field === "mode" ? "Mode" : ""}
                   {field === "eta_ata" ? "ETA/ATA" : ""}
@@ -742,7 +734,7 @@ const AllBookings = ({
                     <span>
                       {filterValues[0]}&nbsp;
                       <Button
-                        style={{ backgroundColor: "#F01E1E", border: "none" }}
+                        style={{ backgroundColor: "red", border: "none" }}
                         variant="contained"
                         onClick={() => handleClick(field)}
                       >
@@ -814,7 +806,6 @@ const AllBookings = ({
                 Clear All
                 <span className="ms-2">
                   <CloseOutlined
-                    size={8}
                     onClick={() => handleChangeFilter("all", [])}
                   />
                 </span>
@@ -834,6 +825,7 @@ const AllBookings = ({
         className={`${
           filteredData?.length === 0 ? "text-center" : ""
         } scrolloftable`}
+        // style={{ height: "653px", overflowY: "auto", marginBottom: "10px" }}
         emptyMessage={noData()}
       >
         <Column
@@ -843,48 +835,13 @@ const AllBookings = ({
               style={{ fontFamily: "Roboto", cursor: "pointer" }}
               className=" d-flex"
             >
-              Shipment ID
+              {/* Shipment ID */}Container
               {MultiSelectFilter("id", ShipId, tblFilter.id, "Shipment ID")}
               {sort("id")}
             </span>
           }
           body={shipmentTemplateFilterData}
-          style={{ paddingRight: "10px", width: "170px", paddingLeft: 10 }}
-        ></Column>
-        <Column
-          field="shipper_ref_no"
-          header={
-            <span
-              style={{ fontFamily: "Roboto", cursor: "pointer" }}
-              className="py-3 d-flex "
-            >
-              Shipper Ref No
-              {MultiSelectFilter(
-                "shipper_ref_no",
-                shipperId_,
-                tblFilter.shipper_ref_no,
-                "Shipper No"
-              )}
-              {sort("shipper_ref_no")}
-            </span>
-          }
-          body={shipmentTemplateId}
-          style={{ paddingLeft: "10px", paddingRight: "10px", width: "185px" }}
-          headerClassName="custom-header"
-        ></Column>
-        <Column
-          field="mode"
-          header={
-            <span
-              style={{ fontFamily: "Roboto", cursor: "pointer" }}
-              className=" d-flex"
-            >
-              Mode
-              {MultiSelectFilter("mode", Mode_, tblFilter.mode, "Mode")}
-              {sort("mode")}
-            </span>
-          }
-          style={{ paddingLeft: "10px", paddingRight: "10px" }}
+          style={{ paddingRight: "10px", width: "170px", paddingLeft: "20px" }}
         ></Column>
 
         <Column
@@ -894,14 +851,14 @@ const AllBookings = ({
               style={{ fontFamily: "Roboto", cursor: "pointer" }}
               className="d-flex"
             >
-              Origin
+              {/* Origin */}Origin
               {MultiSelectFilter("origin", Org_, tblFilter.origin, "Origin")}
               {sort("origin")}
             </span>
           }
           body={originBodyTemplate}
           headerClassName="custom-header"
-          style={{ width: "185px", paddingLeft: "10px", paddingRight: "10px" }}
+          style={{ paddingLeft: "20px", paddingRight: "12px" }}
         ></Column>
         <Column
           field="destination"
@@ -910,7 +867,7 @@ const AllBookings = ({
               className=" d-flex"
               style={{ fontFamily: "Roboto", cursor: "pointer" }}
             >
-              Destination
+              {/* Destination */}Destination
               {MultiSelectFilter(
                 "destination",
                 dest_,
@@ -921,34 +878,68 @@ const AllBookings = ({
             </span>
           }
           body={destinationBodyTemplate}
-          style={{ width: "185px", paddingLeft: "10px", paddingRight: "10px" }}
+          // style={{  paddingRight: "0px" }}
         ></Column>
-
+        <Column
+          field="order_no"
+          header={
+            <span
+              style={{ fontFamily: "Roboto", cursor: "pointer" }}
+              className="py-3 d-flex "
+            >
+              {/* Order No */}Loading Date
+              {MultiSelectFilter(
+                "order_no",
+                orderId_,
+                tblFilter.order_no,
+                "Order No"
+              )}
+              {sort("order_no")}
+            </span>
+          }
+          body={shipmentTemplateId}
+          // style={{ paddingRight: "0px"}}
+          headerClassName="custom-header"
+        ></Column>
+        <Column
+          field="mode"
+          header={
+            <span
+              style={{ fontFamily: "Roboto", cursor: "pointer" }}
+              className=" d-flex"
+            >
+              {/* Mode */}Departure
+              {MultiSelectFilter("mode", Mode_, tblFilter.mode, "Mode")}
+              {sort("mode")}
+            </span>
+          }
+          style={{ paddingRight: "14px" }}
+        ></Column>
         <Column
           field="etd_atd"
           header={
             <span className=" d-flex" style={{ position: "relative" }}>
-              ETD/ATD
+              {/* ETD/ATD */}Arrival
               {MultiSelectFilter("etd_atd", etd_, tblFilter.etd_atd, "ETD/ATD")}
               {sort("etd_atd")}
             </span>
           }
           body={bodyTemplate}
           bodyClassName="custom-cell"
-          style={{ paddingLeft: "10px", paddingRight: "10px" }}
+          style={{ paddingRight: "14px" }}
         ></Column>
         <Column
           field="eta_ata"
           header={
             <span className=" d-flex">
-              ETA/ATA
+              {/* ETA/ATA */}Unloading Date
               {MultiSelectFilter("eta_ata", eta_, tblFilter.eta_ata, "ETA/ATA")}
               {sort("eta_ata")}
             </span>
           }
           body={bodyTemplateEta}
           bodyClassName="custom-cell"
-          style={{ paddingLeft: "10px", paddingRight: "10px" }}
+          // style={{ paddingRight: "5px" }}
         ></Column>
         <Column
           field="status"
@@ -960,9 +951,7 @@ const AllBookings = ({
             </span>
           }
           headerStyle={{
-            width: "130px",
-            paddingLeft: "10px",
-            paddingRight: "10px",
+            // width: "130px",
           }}
           bodyClassName={(rowData) =>
             rowData.status === "Booking In Progress"
@@ -970,7 +959,7 @@ const AllBookings = ({
               : "booked-cell "
           }
           className="text-start my-3"
-          style={{ marginLeft: "10px", marginRight: "10px" }}
+          style={{ marginRight: "10px" }}
         ></Column>
         <Column
           field="action"
@@ -1014,4 +1003,4 @@ const AllBookings = ({
   );
 };
 
-export default AllBookings;
+export default AgentBookings;

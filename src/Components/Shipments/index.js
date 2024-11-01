@@ -10,10 +10,12 @@ import listGray from "../../assets/NewListG.svg";
 import { Tooltip } from "antd";
 import { useLocation } from "react-router-dom";
 import { profileRequest } from "../../Redux/Actions/ProfileAction";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import BookingTabsForAgent from "./ShipmentTable/BookingTabsForAgent";
 
 const ShipmentsHome = ({ showmap, setShowmap, showText, setShowText }) => {
-  const dispatch = useDispatch()
+  const { agent_exist } = useSelector((state) => state.AgentExist);
+  const dispatch = useDispatch();
   const haddleShowMap = () => {
     setShowmap(true);
   };
@@ -21,9 +23,8 @@ const ShipmentsHome = ({ showmap, setShowmap, showText, setShowText }) => {
     setShowmap(false);
   };
   useEffect(() => {
-    dispatch(profileRequest())
-  }, [])
-  
+    dispatch(profileRequest());
+  }, []);
 
   return (
     <div
@@ -39,35 +40,35 @@ const ShipmentsHome = ({ showmap, setShowmap, showText, setShowText }) => {
               <div className="py-4 d-flex justify-content-end gap-1">
                 <div style={{ cursor: "pointer" }}>
                   <Tooltip title="Dashboard View">
-                  <img
-                    src={listGray}
-                    onClick={haddleCloseMap}
-                    width="18px"
-                    height="14px"
-                  />
+                    <img
+                      src={listGray}
+                      onClick={haddleCloseMap}
+                      width="18px"
+                      height="14px"
+                    />
                   </Tooltip>
                 </div>
                 <div style={{ cursor: "pointer" }}>
-                <Tooltip title="Map View">
-                  <img
-                    src={globBlack}
-                    onClick={haddleShowMap}
-                    width="15px"
-                    height="15px"
-                  />
+                  <Tooltip title="Map View">
+                    <img
+                      src={globBlack}
+                      onClick={haddleShowMap}
+                      width="15px"
+                      height="15px"
+                    />
                   </Tooltip>
                 </div>
               </div>
             ) : (
               <div className="py-4 d-flex justify-content-end gap-1">
                 <div style={{ cursor: "pointer" }}>
-                <Tooltip title="Dashboard View">
-                  <img src={ph_table} onClick={haddleCloseMap} />
+                  <Tooltip title="Dashboard View">
+                    <img src={ph_table} onClick={haddleCloseMap} />
                   </Tooltip>
                 </div>
                 <div style={{ cursor: "pointer" }}>
                   <Tooltip title="Map View">
-                  <img src={uil_globe} onClick={haddleShowMap} />
+                    <img src={uil_globe} onClick={haddleShowMap} />
                   </Tooltip>
                 </div>
               </div>
@@ -89,17 +90,36 @@ const ShipmentsHome = ({ showmap, setShowmap, showText, setShowText }) => {
           style={{ width: "1255px", marginTop: "-177px" }}
           className="mb-4 mx-auto"
         >
-          <BookingTabs showText={showText} setShowText={setShowText} />
+          {agent_exist === "N" ? (
+            <BookingTabs showText={showText} setShowText={setShowText} />
+          ) : (
+            <BookingTabsForAgent
+              showText={showText}
+              setShowText={setShowText}
+            />
+          )}
         </div>
       ) : (
         <div
           style={{ width: "1255px", marginTop: "-235px" }}
           className="mb-4 mx-auto"
         >
-          <BookingTabs showText={showText} setShowText={setShowText} setShowmap={setShowmap}/>
+          {agent_exist === "N" ? (
+            <BookingTabs
+              showText={showText}
+              setShowText={setShowText}
+              setShowmap={setShowmap}
+            />
+          ) : (
+            <BookingTabsForAgent
+              showText={showText}
+              setShowText={setShowText}
+              setShowmap={setShowmap}
+            />
+          )}
         </div>
       )}
-        {/* <div style={{ width: "1255px" }} className="shipmentIndex pb-4 mx-auto">
+      {/* <div style={{ width: "1255px" }} className="shipmentIndex pb-4 mx-auto">
           {showText ? (
             ""
           ) : (
