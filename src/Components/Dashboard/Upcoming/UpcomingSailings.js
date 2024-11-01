@@ -240,7 +240,7 @@ const UpcomingSailings = ({setOriginPort,setDestPort}) => {
                 }}
                 // onClick={(e)=>handleBookNow(e,data)}
               >
-                <span style={{ fontSize: "13px" }} >Book Now</span>
+                <span style={{ fontSize: "13px" }} >More</span>
               </button>
             </div>
           </AccordionSummary>

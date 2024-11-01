@@ -25,6 +25,7 @@ import watchPickup from "./PickupSaga";
 import watchDelivery from "./DeliverySaga";
 import watchCPack from "./ContainerPackSaga";
 import watchInvoiceCash from "./InvoiceCashSaga";
+import { watchAgentExist } from "./AgentExistSaga";
 
 export default function* rootSaga() {
   yield all([
@@ -54,5 +55,6 @@ export default function* rootSaga() {
     watchDelivery(),
     watchCPack(),
     watchInvoiceCash(),
+    watchAgentExist(),
   ]);
 }

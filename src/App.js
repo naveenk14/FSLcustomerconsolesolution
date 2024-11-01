@@ -28,6 +28,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import shipgif from "./assets/shiploadinggif.gif"
 import ShipmentSchedules from "./Components/Shipments/ShipmentSchedules";
+import { setAgentexist } from "./Redux/Actions/SetAgentExistAction";
 
 const MainContent = ({
   showmap,
@@ -151,6 +152,11 @@ function App() {
 
     return params;
   };
+  const { is_agent } = parseUrlParams();
+  console.log(is_agent)
+  if(is_agent){
+    dispatch(setAgentexist({is_agent})); // Dispatch saasid to the store
+  }
 
   useEffect(() => {
     const savedToken = Cookies.get("jwtToken");

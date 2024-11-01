@@ -28,6 +28,8 @@ const ShipmentHeader = ({ rowDatas }) => {
   // const location = useLocation();
   // const { rowData } = location.state || {};
   // console.log("shipmentrowData", rowData.id);
+  const { agent_exist } = useSelector((state) => state.AgentExist);
+  console.log(agent_exist)
   const booking_id = rowDatas?.id;
   console.log("rowdtas", booking_id);
 
@@ -147,7 +149,7 @@ const ShipmentHeader = ({ rowDatas }) => {
     manageIcons();
   };
 
-  return (
+  return agent_exist === "N" && (
     <>
       <Card
         style={{
