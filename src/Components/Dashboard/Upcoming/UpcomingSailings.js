@@ -150,13 +150,13 @@ const UpcomingSailings = ({setOriginPort,setDestPort}) => {
             // />}
             // aria-controls="panel1-content"
             // id="panel1-header"
-            expandIcon={<ArrowDropDownIcon />}
+            // expandIcon={<ArrowDropDownIcon />}
             aria-controls={`panel${index}-content`}
             id={`panel${index}-header`}
             // sx={{ border: "none",background: "red" }}
           >
             <div className="d-flex w-100">
-              <div style={{ width: "15%" }}>
+              <div style={{ width: "20%" }}>
                 <Typography
                   className="fw-bold"
                   sx={{ fontSize: "14px", lineHeight: "22px" }}
@@ -201,14 +201,14 @@ const UpcomingSailings = ({setOriginPort,setDestPort}) => {
                   </div>
                 </div>
               </div>
-              <div className=" " style={{ width: "15%" }}>
+              <div className=" " style={{ width: "20%" }}>
                 <Typography
                   className="fw-bold"
-                  sx={{ fontSize: "14px", lineHeight: "22px" }}
+                  sx={{ fontSize: "14px", lineHeight: "22px",textAlign:"center" }}
                 >
                   {data.destination_date || data.ETA}
                 </Typography>
-                <div className="d-flex">
+                <div className="d-flex align-items-center justify-content-center">
                   <CountryFlag
                     countryCode={data?.dest_country_code}
                     alt="ind"
@@ -312,6 +312,7 @@ const UpcomingSailings = ({setOriginPort,setDestPort}) => {
             justifyContent: "center",
             alignItems: "center",
             height: "353px",
+            background:"white"
             // alignSelf:"center"
           }}
         >
@@ -343,6 +344,7 @@ const UpcomingSailings = ({setOriginPort,setDestPort}) => {
             justifyContent: "center",
             alignItems: "center",
             height: "353px",
+            background:"white"
             // alignSelf:"center"
           }}
         >

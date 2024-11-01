@@ -69,7 +69,7 @@ export const SearchHeader = ({ bookingData }) => {
               />
             }
             suffix={
-                <FaArrowCircleRight size={20} color="red" role="button"  onClick={(e) => handleSubmit(e)} />
+                <FaArrowCircleRight size={20}  role="button" className="enter_icon" style={{color:"#f01e1e"}}  onClick={(e) => handleSubmit(e)} />
             }
             className="search-input"
             style={{

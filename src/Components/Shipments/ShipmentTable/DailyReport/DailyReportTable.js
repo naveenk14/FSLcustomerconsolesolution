@@ -856,6 +856,8 @@ function DailyReportTable({
             columnOrder={columnOrder}
             checked={checked}
             setChecked={setChecked}
+            setSidebaropen={setSidebaropen}
+            sidebaropen={sidebaropen}
           />
         )}
       </div>
