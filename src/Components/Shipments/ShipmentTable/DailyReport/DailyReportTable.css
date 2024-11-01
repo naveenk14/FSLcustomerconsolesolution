@@ -39,8 +39,8 @@
 }
 
 .dsr_section
-  .css-lipzh7-MuiButtonBase-root-MuiCheckbox-root.MuiCheckbox-indeterminate {
-  color: rgb(0, 0, 0) !important;
+.css-16eah1l.Mui-checked{
+  color: red !important;
 }
 .dsr_section
   .css-byenzh-MuiButtonBase-root-MuiSwitch-switchBase.Mui-checked

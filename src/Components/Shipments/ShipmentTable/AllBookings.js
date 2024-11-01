@@ -858,7 +858,7 @@ const AllBookings = ({
               style={{ fontFamily: "Roboto", cursor: "pointer" }}
               className="py-3 d-flex "
             >
-              Shipper Ref No
+              Forwarder Ref No
               {MultiSelectFilter(
                 "shipper_ref_no",
                 shipperId_,

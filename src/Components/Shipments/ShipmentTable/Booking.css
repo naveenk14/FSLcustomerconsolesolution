@@ -282,3 +282,7 @@
   width: 8px !important; /* Adjust width */
   height: 8px !important;
 }
+
+.enter_icon:hover{
+  color: #da1e28 !important;
+}

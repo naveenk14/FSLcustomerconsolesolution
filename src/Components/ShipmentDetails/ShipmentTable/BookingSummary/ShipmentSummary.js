@@ -438,7 +438,7 @@ const ShipmentSummary = () => {
                       })}
                     </div>
                     <div className="col">
-                      <p className="row_head">Container Details</p>
+                      <p className="row_head">Container Number</p>
                       {newContainerArray?.length <= 1 ? (
                         <>
                           {newContainerArray.map((item, i) => {
@@ -472,7 +472,33 @@ const ShipmentSummary = () => {
                         </>
                       )}
                     </div>
-                    <div className="col"></div>
+                    <div className="col">
+                    <p className="row_head">Seal Number</p>
+                      {/* {ViewBooking?.map((item) => {
+                        return (
+                          <p className="row_head2">
+                            {item?.no_of_containers?.length <= 40 ? (
+                              item?.no_of_containers
+                            ) : (
+                              <Tooltip
+                                placement="topLeft"
+                                zIndex={9999}
+                                title={item?.no_of_containers}
+                              >
+                                <span role="button">
+                                  {item?.no_of_containers
+                                    ?.slice(0, 41)
+                                    ?.trim()
+                                    ?.split("")
+                                    ?.join("") + "..."}
+                                </span>
+                              </Tooltip>
+                            )}
+                          </p>
+                        );
+                      })} */}
+                      
+                    </div>
                   </div>
                 ) : (
                   ""
