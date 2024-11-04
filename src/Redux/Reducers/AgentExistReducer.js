@@ -1,7 +1,9 @@
 import { SET_AGENT_EXIST } from '../ActionTypes'
 
+const agentExist = JSON.parse(localStorage.getItem('is_agent'));
+
 const initialState = {
-  agent_exist: null,
+  agent_exist: agentExist || null,
 };
 
 const agentexistReducer = (state = initialState, action) => {

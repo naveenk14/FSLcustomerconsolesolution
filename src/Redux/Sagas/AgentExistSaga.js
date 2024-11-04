@@ -7,6 +7,7 @@ function* handleAgentExist(action) {
   // Handle side effects here if needed, e.g., logging, storing in localStorage, etc.
   console.log("agent exist value received and stored in Redux:", agent_exist);
   // Example: yield call(api.storeSaasid, saasid);
+  localStorage.setItem("is_agent",JSON.stringify(agent_exist))
 }
 
 export function* watchAgentExist() {
