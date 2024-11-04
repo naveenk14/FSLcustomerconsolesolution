@@ -129,8 +129,8 @@ const UpcomingSailings = ({setOriginPort,setDestPort}) => {
             },
           }}
           className="acc-row mx-1"
-          expanded={expandedIndex === index}
-          onChange={() => handleAccordionToggle(index)}
+          // expanded={expandedIndex === index}
+          // onChange={() => handleAccordionToggle(index)}
         >
           <AccordionSummary
             // expandIcon={<ArrowDropDownIcon />}
@@ -156,7 +156,7 @@ const UpcomingSailings = ({setOriginPort,setDestPort}) => {
             // sx={{ border: "none",background: "red" }}
           >
             <div className="d-flex w-100">
-              <div style={{ width: "20%" }}>
+              <div style={{ width: "15%" }}>
                 <Typography
                   className="fw-bold"
                   sx={{ fontSize: "14px", lineHeight: "22px" }}
@@ -227,21 +227,23 @@ const UpcomingSailings = ({setOriginPort,setDestPort}) => {
                 </div>
               </div>
               <button
-                className="book-now justify-content-end align-content-center ms-2 me-0"
-                style={{
-                  backgroundColor: "#F01E1E",
-                  padding: "0 8px",
-                  borderRadius: "6px",
-                  color: "white",
-                  border: "none",
-                  height: "30px",
-                  alignSelf: "center",
-                  pointerEvents: "auto"
-                }}
-                // onClick={(e)=>handleBookNow(e,data)}
-              >
-                <span style={{ fontSize: "13px" }} >More</span>
-              </button>
+      className="book-now justify-content-end align-content-center ms-2 me-0"
+      style={{
+        backgroundColor: "#F01E1E",
+        padding: "0 8px",
+        borderRadius: "6px",
+        color: "white",
+        border: "none",
+        height: "30px",
+        alignSelf: "center",
+        pointerEvents: "auto"
+      }}
+      onClick={() => handleAccordionToggle(index)} // Use onClick to handle toggle
+    >
+      <span style={{ fontSize: "13px" }}>
+        {expandedIndex === index ? "Less" : "More"} {/* Toggle button text */}
+      </span>
+    </button>
             </div>
           </AccordionSummary>
           <AccordionDetails sx={{ display: "flex" }}>
