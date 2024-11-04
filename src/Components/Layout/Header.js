@@ -71,6 +71,7 @@ const Header = ({ setShowText, setShowmap,setShowReselt }) => {
   const handleLogout = () => {
     Cookies.remove("jwtToken");
     window.location.href = "https://www.consol-solutions.com/";
+    localStorage.removeItem("is_agent")
   };
 
   const items = [
