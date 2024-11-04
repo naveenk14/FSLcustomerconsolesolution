@@ -58,7 +58,7 @@ const AllBookings = ({
   console.log(showMore);
   const [tblFilter, setTblFilter] = useState({
     id: [],
-    shipper_ref_no: [],
+    forwarder_ref_no: [],
     mode: [],
     origin: [],
     destination: [],
@@ -151,7 +151,7 @@ const AllBookings = ({
   }, [clicked]);
 
   const ShipId = getUniqueOptions(data, "id");
-  const shipperId_ = getUniqueOptions(data, "shipper_ref_no");
+  const shipperId_ = getUniqueOptions(data, "forwarder_ref_no");
   const Mode_ = getUniqueOptions(data, "mode");
   const Org_ = getUniqueOptions(data, "origin");
   const dest_ = getUniqueOptions(data, "destination");
@@ -163,7 +163,7 @@ const AllBookings = ({
     if (field === "all") {
       setTblFilter({
         id: [],
-        shipper_ref_no: [],
+        forwarder_ref_no: [],
         mode: [],
         origin: [],
         destination: [],
@@ -183,7 +183,7 @@ const AllBookings = ({
     if (selectedStatus !== null) {
       setTblFilter({
         id: [],
-        shipper_ref_no: [],
+        forwarder_ref_no: [],
         mode: [],
         origin: [],
         destination: [],
@@ -283,12 +283,12 @@ const AllBookings = ({
     return (
       <div style={{ textAlign: "start" }}>
         <span className="">
-          {rowData?.shipper_ref_no?.length <= 20 ? (
-            rowData?.shipper_ref_no
+          {rowData?.forwarder_ref_no?.length <= 20 ? (
+            rowData?.forwarder_ref_no
           ) : (
-            <Tooltip placement="topLeft" title={rowData?.shipper_ref_no}>
+            <Tooltip placement="topLeft" title={rowData?.forwarder_ref_no}>
               <span role="button">
-                {rowData?.shipper_ref_no?.slice(0, 20)?.trim()?.split(" ")?.join("") +
+                {rowData?.forwarder_ref_no?.slice(0, 20)?.trim()?.split(" ")?.join("") +
                   ".."}
               </span>
             </Tooltip>
@@ -727,7 +727,7 @@ const AllBookings = ({
                 rounded
               >
                 <div style={{ position: "relative" }}>
-                  {field === "shipper_ref_no" ? "Shipper No" : ""}
+                  {field === "forwarder_ref_no" ? "Forwarder No" : ""}
                   {field === "id" ? "Shipment Id" : ""}
                   {field === "mode" ? "Mode" : ""}
                   {field === "eta_ata" ? "ETA/ATA" : ""}
@@ -852,7 +852,7 @@ const AllBookings = ({
           style={{ paddingRight: "10px", width: "170px", paddingLeft: 10 }}
         ></Column>
         <Column
-          field="shipper_ref_no"
+          field="forwarder_ref_no"
           header={
             <span
               style={{ fontFamily: "Roboto", cursor: "pointer" }}
@@ -860,12 +860,12 @@ const AllBookings = ({
             >
               Forwarder Ref No
               {MultiSelectFilter(
-                "shipper_ref_no",
+                "forwarder_ref_no",
                 shipperId_,
-                tblFilter.shipper_ref_no,
-                "Shipper No"
+                tblFilter.forwarder_ref_no,
+                "Forwarder No"
               )}
-              {sort("shipper_ref_no")}
+              {sort("forwarder_ref_no")}
             </span>
           }
           body={shipmentTemplateId}

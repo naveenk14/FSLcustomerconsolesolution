@@ -224,7 +224,10 @@ const ShipmentHeader = ({ rowDatas }) => {
                 </span>
               }
             >
-              <span role="button">{rowData?.etd_atd}{dayDifference > 0 ? ` (+ ${dayDifference} days)`:(dayDifference == 0 || "") ?"":` (${dayDifference} days)`}</span>
+              <span role="button">{rowData?.etd_atd}
+                <span style={{fontSize:"11px",fontWeight:"700"}}>
+                {dayDifference > 0 ? ` (+ ${dayDifference} days)`:(dayDifference == 0 || "") ?"":` (${dayDifference} days)`}</span>
+                </span>
             </Tooltip>
           ) : (
             rowData?.etd_atd
@@ -308,7 +311,10 @@ const ShipmentHeader = ({ rowDatas }) => {
                 </span>
               }
             >
-              <span role="button">{rowData?.eta_ata}{dayDifference > 0 ? ` (+ ${dayDifference} days)`:(dayDifference == 0 || "") ?"":` (${dayDifference} days)`}</span>
+              <span role="button">{rowData?.eta_ata}
+                <span style={{fontSize: "11px",fontWeight: "700"}}>
+                {dayDifference > 0 ? ` (+ ${dayDifference} days)`:(dayDifference == 0 || "") ?"":` (${dayDifference} days)`}</span>
+                </span>
             </Tooltip>
           ) : (
             rowData?.eta_ata
@@ -362,7 +368,7 @@ const ShipmentHeader = ({ rowDatas }) => {
                 {/* <div className="col-4">
             <h6 className="m-0 me-2">Order ID:</h6>
             {fileteredMilestone?.map((item) => {
-              return <h6 className="m-0">{item.shipper_ref_no}</h6>;
+              return <h6 className="m-0">{item.forwarder_ref_no}</h6>;
             })}
           </div> */}
                 <div className="me-5">
@@ -392,16 +398,16 @@ const ShipmentHeader = ({ rowDatas }) => {
                   <h6 className="m-0 me-2">Forwarder Ref No:</h6>
                   <h6 className="m-0">
                     {/*ASO/0143/247887878*/}
-                    {item?.shipper_ref_no?.length <= 70 ? (
-                      item?.shipper_ref_no
+                    {item?.forwarder_ref_no?.length <= 70 ? (
+                      item?.forwarder_ref_no
                     ) : (
                       <Tooltip
                         placement="topLeft"
                         zIndex={9999}
-                        title={item?.shipper_ref_no}
+                        title={item?.forwarder_ref_no}
                       >
                         <span role="button">
-                          {item?.shipper_ref_no
+                          {item?.forwarder_ref_no
                             .slice(0, 69)
                             .trim()
                             .split("")
