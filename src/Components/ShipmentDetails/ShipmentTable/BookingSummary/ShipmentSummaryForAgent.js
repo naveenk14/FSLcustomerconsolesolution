@@ -150,7 +150,7 @@ const ShipmentSummaryForAgent = () => {
     <div className="container-fluid booking_summary">
       {/* {ViewBooking?.map((item) => { */}
       {/* return ( */}
-      <div className="row mx-0">
+      <div className="row me-0">
         {/* <div className="col-6 mb-3">
           <div className="card h-100">
             <div className="card-header">
@@ -638,7 +638,7 @@ const ShipmentSummaryForAgent = () => {
         })}
       </div>
 
-      <div className="row mt-3 mx-0">
+      <div className="row mt-3">
         <div className="col">
           <div className="card h-100">
             <div className="card-header">
@@ -710,7 +710,7 @@ const ShipmentSummaryForAgent = () => {
           </div>
         </div>
       </div>
-      <div className="row mt-3 mx-0">
+      <div className="row mt-3">
         <div className="col">
           <div className="card h-100">
             <div className="card-header">
