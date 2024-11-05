@@ -1,6 +1,9 @@
-/* .shipment__sidebarcard:hover {
+.shipment__sidebarcard:hover {
     background-color: #CFF1FF;
-} */
+    border-left: 4px solid #CFF1FF ; /* Highlight the left side */
+    transition: background-color 0.3s ease, border-left 0.3s ease;
+}
+
 
 .shipment__sidebarcard .ant-card-body {
     padding: 8px !important;
