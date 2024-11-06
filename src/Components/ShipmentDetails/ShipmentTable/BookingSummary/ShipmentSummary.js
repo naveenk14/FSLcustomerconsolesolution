@@ -474,19 +474,19 @@ const ShipmentSummary = () => {
                     </div>
                     <div className="col">
                     <p className="row_head">Seal Number</p>
-                      {/* {ViewBooking?.map((item) => {
+                      {ViewBooking?.map((item) => {
                         return (
                           <p className="row_head2">
-                            {item?.no_of_containers?.length <= 40 ? (
-                              item?.no_of_containers
+                            {item?.actual_seal?.length <= 40 ? (
+                              item?.actual_seal
                             ) : (
                               <Tooltip
                                 placement="topLeft"
                                 zIndex={9999}
-                                title={item?.no_of_containers}
+                                title={item?.actual_seal}
                               >
                                 <span role="button">
-                                  {item?.no_of_containers
+                                  {item?.actual_seal
                                     ?.slice(0, 41)
                                     ?.trim()
                                     ?.split("")
@@ -496,7 +496,7 @@ const ShipmentSummary = () => {
                             )}
                           </p>
                         );
-                      })} */}
+                      })}
                       
                     </div>
                   </div>
