@@ -45,44 +45,52 @@ function BookingTabsForAgent({ showText, setShowText, setShowmap }) {
   const [showAllData, setshowAllData] = useState(false);
   const [scrollHeight, setscrollHeight] = useState("653px");
   const dispatch = useDispatch();
-  const ShipmentData = useSelector((state) => state.Booking);
-  const bookingDatas = ShipmentData?.booking;
-  const bookingData = custom_data;
+  const AgentCLData = useSelector((state) => state.AgentContainerList);
+  console.log(AgentCLData)
+  const bookingData = AgentCLData?.agent_container_list;
+  // const bookingData = bookingDatas;
   console.log("bookingData", bookingData);
-  console.log("bookingDatas", bookingDatas);
-  const tabCount = ShipmentData?.booking?.statuswise_count;
+  // console.log("bookingDatas", bookingDatas);
+  const tabCount = AgentCLData?.agent_container_list?.statuswise_count;
   console.log(tabCount, bookingData);
   const [popoverVisible, setPopoverVisible] = useState(false); // State to control Popover visibility
   const [dsrpopoverVisible, setDsrPopoverVisible] = useState(false); // State to control Popover visibility
   // const saveSuccess = useSelector((state) => state?.SaveDsr?.savedsr?.Response);
-
+  console.log(filteredData)
   let schedule;
   if (tabCount && tabCount.length > 0) {
     schedule = tabCount[0];
   } else {
   }
   useEffect(() => {
-    if (bookingData && bookingData.data) {
+    if (bookingData) {
       setData(bookingData?.data);
     }
   }, [bookingData]);
+  console.log(data)
 
   const filterData = (status) => {
+    console.log("worked")
     if (status === "All") {
       setFilteredData(data);
       setSelectedStatus("All");
     } else {
-      setFilteredData(data.filter((item) => status.includes(item.status)));
+      setFilteredData(data?.filter((item) => status?.includes(item?.export_import)));
       setSelectedStatus(status);
     }
   };
 
+  // useEffect(() => {
+  //   const newFilteredData = data?.filter((item) =>
+  //     item?.container?.toLowerCase()?.includes(searchQuery?.toLowerCase())
+  //   );
+  //   setFilteredData(newFilteredData);
+  // }, [searchQuery, data]);
+
   useEffect(() => {
-    const newFilteredData = data.filter((item) =>
-      item.id.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-    setFilteredData(newFilteredData);
-  }, [searchQuery, data]);
+    filterData(["Export"])
+  }, [data])
+  
 
   const items = [
     "Past 30 Days",
@@ -168,37 +176,37 @@ function BookingTabsForAgent({ showText, setShowText, setShowmap }) {
     setActiveTab(key);
     switch (key) {
       case "1":
-        filterData("All");
+        filterData(["Export"]);
         setSelectedButton(null);
         setCurrentPage(1);
         break;
       case "2":
-        filterData(["Booked", "Cargo Pickup", "Cargo Received"]);
+        filterData(["Import"]);
         setSelectedButton(null);
         setCurrentPage(1);
         break;
-      case "3":
-        filterData(["In Transit", "Departed"]);
-        setSelectedButton(null);
-        setCurrentPage(1);
-        break;
-      case "4":
-        filterData(["Arrived"]);
-        setSelectedButton(null);
-        setCurrentPage(1);
-        break;
-      case "5":
-        filterData(["Delivered"]);
-        setSelectedButton(null);
-        setCurrentPage(1);
-        break;
-      case "6":
-        filterData(["Canceled"]);
-        setSelectedButton(null);
-        setCurrentPage(1);
-        break;
+      // case "3":
+      //   filterData(["In Transit", "Departed"]);
+      //   setSelectedButton(null);
+      //   setCurrentPage(1);
+      //   break;
+      // case "4":
+      //   filterData(["Arrived"]);
+      //   setSelectedButton(null);
+      //   setCurrentPage(1);
+      //   break;
+      // case "5":
+      //   filterData(["Delivered"]);
+      //   setSelectedButton(null);
+      //   setCurrentPage(1);
+      //   break;
+      // case "6":
+      //   filterData(["Canceled"]);
+      //   setSelectedButton(null);
+      //   setCurrentPage(1);
+      //   break;
       default:
-        filterData("All");
+        filterData(["Export"]);
         setSelectedButton(null);
         setCurrentPage(1);
     }
@@ -224,17 +232,9 @@ function BookingTabsForAgent({ showText, setShowText, setShowmap }) {
 
   useEffect(() => {
     if (activeTab && schedule) {
-      if (Number(activeTab) === 1 && Number(schedule?.all) > 10) {
+      if (Number(activeTab) === 1 && Number(schedule?.EXPORT) > 10) {
         setshowMore(true);
-      } else if (Number(activeTab) === 2 && Number(schedule?.booked) > 10) {
-        setshowMore(true);
-      } else if (Number(activeTab) === 3 && Number(schedule?.in_transit) > 10) {
-        setshowMore(true);
-      } else if (Number(activeTab) === 4 && Number(schedule?.arrived) > 10) {
-        setshowMore(true);
-      } else if (Number(activeTab) === 5 && Number(schedule?.delivered) > 10) {
-        setshowMore(true);
-      } else if (Number(activeTab) === 6 && Number(schedule?.cancelled) > 10) {
+      } else if (Number(activeTab) === 2 && Number(schedule?.IMPORT) > 10) {
         setshowMore(true);
       } else {
         setshowMore(false);
@@ -343,9 +343,9 @@ function BookingTabsForAgent({ showText, setShowText, setShowmap }) {
     window.scrollTo(0, 0);
   }, []);
   const tabs = [
-    { label: `Export (${schedule?.all ? schedule?.all : 0})`, key: "1" },
+    { label: `Export (${schedule?.EXPORT ? schedule?.EXPORT : 0})`, key: "1" },
     {
-      label: `Import (${schedule?.booked ? schedule?.booked : 0})`,
+      label: `Import (${schedule?.IMPORT ? schedule?.IMPORT : 0})`,
       key: "2",
     },
     // {

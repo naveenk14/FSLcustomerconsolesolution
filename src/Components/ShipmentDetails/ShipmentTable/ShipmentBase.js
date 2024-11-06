@@ -265,11 +265,13 @@ const ShipmentBase = ({ open, close, rowData }) => {
             onClick={() => close(false)}
             style={{ position: "absolute", top: "0px", right: "10px" }}
           />
-          <ShipmentHeader rowDatas={rowData} close={close} />
+          {
+            agent_exist === "N" && <ShipmentHeader rowDatas={rowData} close={close} />
+          }
+          
           {agent_exist === "Y" && (
             <div className="d-flex gap-3">
               <ShipmentSideNav />
-
               <ShipmentTable
                 contentListNoTitle={contentListNoTitle}
                 tabListNoTitle={tabListNoTitle}

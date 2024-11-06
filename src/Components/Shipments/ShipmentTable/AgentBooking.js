@@ -4,7 +4,6 @@ import { Column } from "primereact/column";
 import { Button } from "primereact/button";
 import Pagination from "../../Core-Components/Pagination";
 import { useDispatch } from "react-redux";
-import { bookingRequest } from "../../../Redux/Actions/BookingAction";
 import { Tooltip } from "antd";
 import CountryFlag from "../../Core-Components/CountryFlag";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
@@ -25,6 +24,7 @@ import shipgif from "../../../assets/shiploadinggif.gif";
 import { IoCloseCircleSharp } from "react-icons/io5";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { custom_data } from "./CustomData";
+import { agentCLRequest } from "../../../Redux/Actions/AgentContainerAction";
 
 const AgentBookings = ({
   filterData,
@@ -48,19 +48,19 @@ const AgentBookings = ({
   const [data, setData] = useState(filteredData);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalRowData, setModalRowData] = useState(null);
-  const { loading } = useSelector((state) => state.Booking);
+  const { loading } = useSelector((state) => state.AgentContainerList);
   // const [showAllData, setshowAllData] = useState(false)
   // const [scrollHeight, setscrollHeight] = useState("653px")
   const [selectfield, setselectfield] = useState("");
   console.log(showMore);
   const [tblFilter, setTblFilter] = useState({
     id: [],
-    order_no: [],
-    mode: [],
+    loading_date: [],
+    departure: [],
     origin: [],
     destination: [],
-    eta_ata: [],
-    etd_atd: [],
+    unloading_date: [],
+    Arrival: [],
     status: [],
   });
   const payload = {
@@ -72,19 +72,19 @@ const AgentBookings = ({
     booking_number: "",
     origin: "",
     destination: "",
-    mode: "",
+    departure: "",
     etd: "",
     eta: "",
     filter_days: filterValue ? filterValue : "",
   };
 
   useEffect(() => {
-    dispatch(bookingRequest({ payload }));
+    dispatch(agentCLRequest({ payload }));
   }, [filterValue, filterMonthValue]);
 
   useEffect(() => {
     const filterDataTable = filterData
-      .map((item, index) => ({
+      ?.map((item, index) => ({
         key: index,
         ...item,
       }))
@@ -147,25 +147,25 @@ const AgentBookings = ({
     }
   }, [clicked]);
 
-  const ShipId = getUniqueOptions(data, "id");
-  const orderId_ = getUniqueOptions(data, "order_no");
-  const Mode_ = getUniqueOptions(data, "mode");
+  const containerNo_ = getUniqueOptions(data, "container");
+  const loadingDate_ = getUniqueOptions(data, "loading_date");
+  const Mode_ = getUniqueOptions(data, "departure");
   const Org_ = getUniqueOptions(data, "origin");
   const dest_ = getUniqueOptions(data, "destination");
-  const eta_ = getUniqueOptions(data, "eta_ata");
-  const etd_ = getUniqueOptions(data, "etd_atd");
+  const unloadingdate_ = getUniqueOptions(data, "unloading_date");
+  const arrival_ = getUniqueOptions(data, "Arrival");
   const status_ = getUniqueOptions(data, "status");
 
   const handleChangeFilter = (field, filterValues) => {
     if (field === "all") {
       setTblFilter({
-        id: [],
-        order_no: [],
-        mode: [],
+        container: [],
+        loading_date: [],
+        departure: [],
         origin: [],
         destination: [],
-        eta_ata: [],
-        etd_atd: [],
+        unloading_date: [],
+        Arrival: [],
         status: [],
       });
     } else {
@@ -179,13 +179,13 @@ const AgentBookings = ({
   useEffect(() => {
     if (selectedStatus !== null) {
       setTblFilter({
-        id: [],
-        order_no: [],
-        mode: [],
+        container: [],
+        loading_date: [],
+        departure: [],
         origin: [],
         destination: [],
-        eta_ata: [],
-        etd_atd: [],
+        unloading_date: [],
+        Arrival: [],
         status: [],
       });
     }
@@ -249,19 +249,19 @@ const AgentBookings = ({
     console.log(rowData);
     let buttonLabel;
     let btnClass;
-    if (rowData.action === "Track") {
-      buttonLabel = "More";
-      btnClass = "cargo-picked-up";
-    } else if (rowData.action === "Booking In Progress") {
-      buttonLabel = "-";
-    } else if (rowData.action === "Cargo Picked Up") {
-      buttonLabel = "More";
-      btnClass = "cargo-picked-up";
-    }
+    // if (rowData.action === "Track") {
+    //   buttonLabel = "More";
+    //   btnClass = "cargo-picked-up";
+    // } else if (rowData.action === "Booking In Progress") {
+    //   buttonLabel = "-";
+    // } else if (rowData.action === "Cargo Picked Up") {
+    //   buttonLabel = "More";
+    //   btnClass = "cargo-picked-up";
+    // }
     return (
       <Button
         outlined
-        className={btnClass}
+        // className={btnClass}
         style={{
           background: "rgba(240, 30, 30, 1)",
           color: "white",
@@ -271,7 +271,8 @@ const AgentBookings = ({
           padding: "",
           gap: "8px",
         }}
-        label={buttonLabel}
+        // label={buttonLabel}
+        label="More"
         onClick={() => showModal(rowData)}
       />
     );
@@ -281,12 +282,12 @@ const AgentBookings = ({
     return (
       <div style={{ textAlign: "start" }}>
         <span className="">
-          {rowData?.order_no?.length <= 20 ? (
-            rowData?.order_no
+          {rowData?.loading_date?.length <= 20 ? (
+            rowData?.loading_date
           ) : (
-            <Tooltip placement="topLeft" title={rowData?.order_no}>
+            <Tooltip placement="topLeft" title={rowData?.loading_date}>
               <span role="button">
-                {rowData?.order_no?.slice(0, 20)?.trim()?.split(" ")?.join("") +
+                {rowData?.loading_date?.slice(0, 20)?.trim()?.split(" ")?.join("") +
                   ".."}
               </span>
             </Tooltip>
@@ -299,12 +300,12 @@ const AgentBookings = ({
     return (
       <div style={{ textAlign: "start" }}>
         <span className="">
-          {rowData?.container_id?.length <= 20 ? (
-            rowData?.container_id
+          {rowData?.container?.length <= 20 ? (
+            rowData?.container
           ) : (
-            <Tooltip placement="topLeft" title={rowData?.container_id}>
+            <Tooltip placement="topLeft" title={rowData?.container}>
               <span role="button">
-                {rowData?.id?.slice(0, 20)?.trim()?.split(" ")?.join("") + ".."}
+                {rowData?.container?.slice(0, 20)?.trim()?.split(" ")?.join("") + ".."}
               </span>
             </Tooltip>
           )}
@@ -371,145 +372,146 @@ const AgentBookings = ({
     );
   };
   const bodyTemplate = (rowData) => {
-    const { actual_departure, estimated_departure } = rowData;
-    // Variable to store the result
-    let dayDifference = "";
+    // const { actual_departure, estimated_departure } = rowData;
+    // // Variable to store the result
+    // let dayDifference = "";
 
-    // Check if either date is empty
-    if (actual_departure && estimated_departure) {
-      // Convert to Date objects
-      const actualDate = new Date(actual_departure);
-      const estimatedDate = new Date(estimated_departure);
+    // // Check if either date is empty
+    // if (actual_departure && estimated_departure) {
+    //   // Convert to Date objects
+    //   const actualDate = new Date(actual_departure);
+    //   const estimatedDate = new Date(estimated_departure);
 
-      // Calculate the time difference in milliseconds
-      const timeDifference = actualDate - estimatedDate;
+    //   // Calculate the time difference in milliseconds
+    //   const timeDifference = actualDate - estimatedDate;
 
-      // Convert milliseconds to days
-      dayDifference = timeDifference / (1000 * 60 * 60 * 24);
-    }
+    //   // Convert milliseconds to days
+    //   dayDifference = timeDifference / (1000 * 60 * 60 * 24);
+    // }
 
-    const getDepartMessage = () => {
-      if (dayDifference === "") return null;
-      if (dayDifference === 0) return { color: "#00c500" };
-      if (dayDifference > 0) return { color: "red" };
-      if (dayDifference < 0) return { color: "#00c500" };
-    };
+    // const getDepartMessage = () => {
+    //   if (dayDifference === "") return null;
+    //   if (dayDifference === 0) return { color: "#00c500" };
+    //   if (dayDifference > 0) return { color: "red" };
+    //   if (dayDifference < 0) return { color: "#00c500" };
+    // };
 
-    const departInfo = getDepartMessage();
-    const EtdTitle = () => {
-      if (dayDifference === "") return null;
-      if (dayDifference === 0) return <div>Departed On-time</div>;
-      if (dayDifference > 0)
-        return (
-          <div>
-            Departed Late{" "}
-            <span style={{ color: "red", fontWeight: "700" }}>
-              {" "}
-              (+{dayDifference} days)
-            </span>
-          </div>
-        );
-      if (dayDifference < 0)
-        return (
-          <div>
-            Departed Early{" "}
-            <span style={{ color: "#00c500", fontWeight: "700" }}>
-              ({dayDifference} days)
-            </span>
-          </div>
-        );
-    };
+    // const departInfo = getDepartMessage();
+    // const EtdTitle = () => {
+    //   if (dayDifference === "") return null;
+    //   if (dayDifference === 0) return <div>Departed On-time</div>;
+    //   if (dayDifference > 0)
+    //     return (
+    //       <div>
+    //         Departed Late{" "}
+    //         <span style={{ color: "red", fontWeight: "700" }}>
+    //           {" "}
+    //           (+{dayDifference} days)
+    //         </span>
+    //       </div>
+    //     );
+    //   if (dayDifference < 0)
+    //     return (
+    //       <div>
+    //         Departed Early{" "}
+    //         <span style={{ color: "#00c500", fontWeight: "700" }}>
+    //           ({dayDifference} days)
+    //         </span>
+    //       </div>
+    //     );
+    // };
     return (
       <div className="message">
         <span
           style={{
-            color: departInfo ? departInfo.color : "",
-            fontWeight: "500",
+            // color: departInfo ? departInfo.color : "",
+            color:"rgba(24, 30, 37, 1)"
+            // fontWeight: "500",
           }}
         >
-          {departInfo ? (
+          {/* {departInfo ? (
             <Tooltip
               placement="topLeft"
               title={
                 <span>
                   <div style={{ fontSize: "13px" }}>{EtdTitle()}</div>
                   <div style={{ fontSize: "10px" }}>
-                    {/* {rowData?.updated_message} */}
                     Estimated Departure : {rowData.estimated_departure} <br />
                     Actual Departure : {rowData.actual_departure}
                   </div>
                 </span>
               }
             >
-              <span role="button">{rowData?.etd_atd}</span>
-            </Tooltip>
-          ) : (
-            rowData?.etd_atd
-          )}
+              <span role="button">{rowData?.Arrival}</span>
+            </Tooltip> */}
+          {/* ) : ( */}
+          {  rowData?.Arrival}
+          {/* )} */}
         </span>
       </div>
     );
   };
 
   const bodyTemplateEta = (rowData) => {
-    const { actuval_arrival, estimated_arrival } = rowData;
-    // Variable to store the result
-    let dayDifference = "";
+    // const { actuval_arrival, estimated_arrival } = rowData;
+    // // Variable to store the result
+    // let dayDifference = "";
 
-    // Check if either date is empty
-    if (actuval_arrival && estimated_arrival) {
-      // Convert to Date objects
-      const actualDate = new Date(actuval_arrival);
-      const estimatedDate = new Date(estimated_arrival);
+    // // Check if either date is empty
+    // if (actuval_arrival && estimated_arrival) {
+    //   // Convert to Date objects
+    //   const actualDate = new Date(actuval_arrival);
+    //   const estimatedDate = new Date(estimated_arrival);
 
-      // Calculate the time difference in milliseconds
-      const timeDifference = actualDate - estimatedDate;
+    //   // Calculate the time difference in milliseconds
+    //   const timeDifference = actualDate - estimatedDate;
 
-      // Convert milliseconds to days
-      dayDifference = timeDifference / (1000 * 60 * 60 * 24);
-    }
+    //   // Convert milliseconds to days
+    //   dayDifference = timeDifference / (1000 * 60 * 60 * 24);
+    // }
 
-    console.log(dayDifference); // Will print the result or an empty string
+    // console.log(dayDifference); // Will print the result or an empty string
 
-    const getArrivalMessage = () => {
-      if (dayDifference === "") return null;
-      if (dayDifference === 0) return { color: "#00c500" };
-      if (dayDifference > 0) return { color: "red" };
-      if (dayDifference < 0) return { color: "#00c500" };
-    };
-    const arrivalInfo = getArrivalMessage();
-    const EtaTitle = () => {
-      if (dayDifference === "") return null;
-      if (dayDifference === 0) return <div>Arrived On-time</div>;
-      if (dayDifference > 0)
-        return (
-          <div>
-            Arrived Late{" "}
-            <span style={{ color: "red", fontWeight: "700" }}>
-              {" "}
-              (+{dayDifference} days)
-            </span>
-          </div>
-        );
-      if (dayDifference < 0)
-        return (
-          <div>
-            Arrived Early{" "}
-            <span style={{ color: "#00c500", fontWeight: "700" }}>
-              ({dayDifference} days)
-            </span>
-          </div>
-        );
-    };
+    // const getArrivalMessage = () => {
+    //   if (dayDifference === "") return null;
+    //   if (dayDifference === 0) return { color: "#00c500" };
+    //   if (dayDifference > 0) return { color: "red" };
+    //   if (dayDifference < 0) return { color: "#00c500" };
+    // };
+    // const arrivalInfo = getArrivalMessage();
+    // const EtaTitle = () => {
+    //   if (dayDifference === "") return null;
+    //   if (dayDifference === 0) return <div>Arrived On-time</div>;
+    //   if (dayDifference > 0)
+    //     return (
+    //       <div>
+    //         Arrived Late{" "}
+    //         <span style={{ color: "red", fontWeight: "700" }}>
+    //           {" "}
+    //           (+{dayDifference} days)
+    //         </span>
+    //       </div>
+    //     );
+    //   if (dayDifference < 0)
+    //     return (
+    //       <div>
+    //         Arrived Early{" "}
+    //         <span style={{ color: "#00c500", fontWeight: "700" }}>
+    //           ({dayDifference} days)
+    //         </span>
+    //       </div>
+    //     );
+    // };
     return (
       <div className="message">
         <span
           style={{
-            color: arrivalInfo ? arrivalInfo.color : "",
-            fontWeight: "500",
+            // color: arrivalInfo ? arrivalInfo.color : "",
+            // fontWeight: "500",
+            color:"rgba(24, 30, 37, 1)"
           }}
         >
-          {arrivalInfo ? (
+          {/* {arrivalInfo ? (
             <Tooltip
               placement="topLeft"
               title={
@@ -522,11 +524,11 @@ const AgentBookings = ({
                 </span>
               }
             >
-              <span role="button">{rowData?.eta_ata}</span>
+              <span role="button">{rowData?.unloading_date}</span>
             </Tooltip>
-          ) : (
-            rowData?.eta_ata
-          )}
+          ) : ( */}
+           { rowData?.unloading_date}
+          {/* )} */}
         </span>
       </div>
     );
@@ -719,11 +721,11 @@ const AgentBookings = ({
                 rounded
               >
                 <div style={{ position: "relative" }}>
-                  {field === "order_no" ? "Order No" : ""}
-                  {field === "id" ? "Shipment Id" : ""}
-                  {field === "mode" ? "Mode" : ""}
-                  {field === "eta_ata" ? "ETA/ATA" : ""}
-                  {field === "etd_atd" ? "ETD/ATD" : ""}
+                  {field === "loading_date" ? "Loading Date" : ""}
+                  {field === "container" ? "Container No" : ""}
+                  {field === "departure" ? "departure" : ""}
+                  {field === "unloading_date" ? "UNLOADING_DATE" : ""}
+                  {field === "Arrival" ? "Arrival" : ""}
                   {field === "status" ? "Status" : ""}
                   {field === "origin" ? "Origin" : ""}
                   {field === "destination" ? "Destination" : ""}
@@ -734,7 +736,7 @@ const AgentBookings = ({
                     <span>
                       {filterValues[0]}&nbsp;
                       <Button
-                        style={{ backgroundColor: "red", border: "none" }}
+                        style={{ backgroundColor: "#F01E1E", border: "none" }}
                         variant="contained"
                         onClick={() => handleClick(field)}
                       >
@@ -829,15 +831,15 @@ const AgentBookings = ({
         emptyMessage={noData()}
       >
         <Column
-          field="id"
+          field="container"
           header={
             <span
               style={{ fontFamily: "Roboto", cursor: "pointer" }}
               className=" d-flex"
             >
               {/* Shipment ID */}Container
-              {MultiSelectFilter("id", ShipId, tblFilter.id, "Shipment ID")}
-              {sort("id")}
+              {MultiSelectFilter("container", containerNo_, tblFilter.container, "Container No")}
+              {sort("container")}
             </span>
           }
           body={shipmentTemplateFilterData}
@@ -881,20 +883,20 @@ const AgentBookings = ({
           // style={{  paddingRight: "0px" }}
         ></Column>
         <Column
-          field="order_no"
+          field="loading_date"
           header={
             <span
               style={{ fontFamily: "Roboto", cursor: "pointer" }}
               className="py-3 d-flex "
             >
-              {/* Order No */}Loading Date
+              {/* Loading Date */}Loading Date
               {MultiSelectFilter(
-                "order_no",
-                orderId_,
-                tblFilter.order_no,
-                "Order No"
+                "loading_date",
+                loadingDate_,
+                tblFilter.loading_date,
+                "Loading Date"
               )}
-              {sort("order_no")}
+              {sort("loading_date")}
             </span>
           }
           body={shipmentTemplateId}
@@ -902,26 +904,26 @@ const AgentBookings = ({
           headerClassName="custom-header"
         ></Column>
         <Column
-          field="mode"
+          field="departure"
           header={
             <span
               style={{ fontFamily: "Roboto", cursor: "pointer" }}
               className=" d-flex"
             >
-              {/* Mode */}Departure
-              {MultiSelectFilter("mode", Mode_, tblFilter.mode, "Mode")}
-              {sort("mode")}
+              {/* departure */}Departure
+              {MultiSelectFilter("departure", Mode_, tblFilter.departure, "Departure")}
+              {sort("departure")}
             </span>
           }
           style={{ paddingRight: "14px" }}
         ></Column>
         <Column
-          field="etd_atd"
+          field="Arrival"
           header={
             <span className=" d-flex" style={{ position: "relative" }}>
-              {/* ETD/ATD */}Arrival
-              {MultiSelectFilter("etd_atd", etd_, tblFilter.etd_atd, "ETD/ATD")}
-              {sort("etd_atd")}
+              {/* Arrival */}Arrival
+              {MultiSelectFilter("Arrival", arrival_, tblFilter.Arrival, "Arrival")}
+              {sort("Arrival")}
             </span>
           }
           body={bodyTemplate}
@@ -929,12 +931,12 @@ const AgentBookings = ({
           style={{ paddingRight: "14px" }}
         ></Column>
         <Column
-          field="eta_ata"
+          field="unloading_date"
           header={
             <span className=" d-flex">
-              {/* ETA/ATA */}Unloading Date
-              {MultiSelectFilter("eta_ata", eta_, tblFilter.eta_ata, "ETA/ATA")}
-              {sort("eta_ata")}
+              {/* UNLOADING_DATE */}Unloading Date
+              {MultiSelectFilter("unloading_date", unloadingdate_, tblFilter.unloading_date, "UNLOADING_DATE")}
+              {sort("unloading_date")}
             </span>
           }
           body={bodyTemplateEta}

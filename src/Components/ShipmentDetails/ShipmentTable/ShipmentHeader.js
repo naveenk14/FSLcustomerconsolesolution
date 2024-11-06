@@ -37,7 +37,9 @@ const ShipmentHeader = ({ rowDatas }) => {
   // const booking_id = rowData.id
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(ViewBookingAction({ booking_id }));
+    if(agent_exist === "N"){
+    dispatch(ViewBookingAction({ booking_id }));      
+  }
   }, []);
 
   const bookingData = useSelector((state) => state.ViewBooking);
@@ -224,9 +226,9 @@ const ShipmentHeader = ({ rowDatas }) => {
                 </span>
               }
             >
-              <span role="button">{rowData?.etd_atd}
-                <span style={{fontSize:"11px",fontWeight:"700"}}>
-                {dayDifference > 0 ? ` (+ ${dayDifference} days)`:(dayDifference == 0 || "") ?"":` (${dayDifference} days)`}</span>
+              <span role="button" style={{color:"#384656"}} >{rowData?.etd_atd}{" "}
+                <span style={{fontSize:"11px",fontWeight:"700",color:dayDifference > 0 ? "red" : "#00c500"}}>
+                {dayDifference > 0 ? ` (+ ${dayDifference} days)`:(dayDifference == 0 || "") ?"(On-time)":` (${dayDifference} days)`}</span>
                 </span>
             </Tooltip>
           ) : (
@@ -311,9 +313,9 @@ const ShipmentHeader = ({ rowDatas }) => {
                 </span>
               }
             >
-              <span role="button">{rowData?.eta_ata}
-                <span style={{fontSize: "11px",fontWeight: "700"}}>
-                {dayDifference > 0 ? ` (+ ${dayDifference} days)`:(dayDifference == 0 || "") ?"":` (${dayDifference} days)`}</span>
+              <span role="button" style={{color:"#384656"}} >{rowData?.eta_ata}
+                <span style={{fontSize: "11px",fontWeight: "700",color: dayDifference > 0 ? "red" : "#00c500"}}>
+                {dayDifference > 0 ? ` (+ ${dayDifference} days)`:(dayDifference == 0 || "") ?" (On-time)":` (${dayDifference} days)`}</span>
                 </span>
             </Tooltip>
           ) : (

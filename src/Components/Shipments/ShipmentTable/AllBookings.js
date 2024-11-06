@@ -317,7 +317,7 @@ const AllBookings = ({
   const originBodyTemplate = (rowData) => {
     return (
       <div className="origin-cell" style={{ textAlign: "start" }}>
-        <CountryFlag styleData={{boxShadow:"1px 1px 1.5px 0px"}} countryCode={rowData?.origin_countrycode} />
+        <CountryFlag countryCode={rowData?.origin_countrycode} />
         <span
           style={{
             paddingLeft: "8px",
@@ -343,7 +343,7 @@ const AllBookings = ({
   const destinationBodyTemplate = (rowData) => {
     return (
       <div className="origin-cell" style={{ textAlign: "start" }}>
-        <CountryFlag styleData={{boxShadow:"1px 1px 1.5px 0px"}} countryCode={rowData?.destination_countrycode} />
+        <CountryFlag countryCode={rowData?.destination_countrycode} />
         <span
           style={{ paddingLeft: "8px", fontWeight: "400", textWrap: "wrap" }}
         >
