@@ -230,7 +230,7 @@ const ShipmentSidNav = () => {
       >
         <Tabs.TabPane tab={`Import (${importCount})`} key="Import" />
         <Tabs.TabPane
-          tab={`Transshipment (${transshipmentCount})`}
+          tab={`Transhipment (${transshipmentCount})`}
           key="Transshipment"
         />
       </Tabs>
