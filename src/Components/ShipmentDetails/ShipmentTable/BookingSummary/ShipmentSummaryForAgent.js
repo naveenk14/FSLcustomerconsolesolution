@@ -6,10 +6,13 @@ import ContainerDetailsModal from "../Modal/ContainerDetailsModal";
 import TextArea from "antd/es/input/TextArea";
 import { useSelector } from "react-redux";
 import { Dialog, DialogContent } from "@mui/material";
+import {Custom_Shipment_Data} from "./customShipmentData"
 
 const ShipmentSummaryForAgent = () => {
-  const bookingData = useSelector((state) => state?.ViewBooking);
-  const ViewBooking = bookingData?.viewBookingData?.customercode;
+  // const bookingData = useSelector((state) => state?.ViewBooking);
+  const bookingData = Custom_Shipment_Data
+  const ViewBooking = bookingData?.customercode;
+  console.log(ViewBooking)
 
   const conatinerno =
     bookingData?.viewBookingData?.customercode[0]?.container_no;
