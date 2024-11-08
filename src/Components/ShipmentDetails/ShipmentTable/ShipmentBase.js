@@ -41,15 +41,22 @@ const ShipmentBase = ({ open, close, rowData }) => {
   console.log("rowData", rowData);
   // const rowDatas = rowData
   const bookingData = useSelector((state) => state.ViewBooking);
-  const { agent_exist } = useSelector((state) => state.AgentExist);
-  console.log(agent_exist);
   console.log("bookingData", bookingData);
+  //for View Booking Customer
   const ViewBooking = bookingData?.viewBookingData?.customercode;
   const OriginMilestones = bookingData?.viewBookingData?.milestone_origin;
   const TransitMilestones = bookingData?.viewBookingData?.milestone_transit;
   const DestinationMilestones =
     bookingData?.viewBookingData?.milestone_destination;
   console.log("OriginMilestones", OriginMilestones);
+
+  //for View Container Agent
+  const agentContainerData = useSelector((state) => state.ViewContainer);
+  const { agent_exist } = useSelector((state) => state.AgentExist);
+  console.log(agent_exist);
+  console.log(agentContainerData)
+  const [agentData, setAgentData] = useState(agentContainerData?.viewContainerData?.container?.[0])
+  console.log(agentData)
 
   const tabListNoTitle = [
     // {
@@ -104,9 +111,9 @@ const ShipmentBase = ({ open, close, rowData }) => {
   const contentListNoTitle = {
     // PendingActions: <PendingActionsBase />,
     // PendingActions: <TabBase />,
-    ShipmentSummary: agent_exist === "N" ? <ShipmentSummary /> : agent_exist === "Y" ?<ShipmentSummaryForAgent />:"",
+    ShipmentSummary: agent_exist === "N" ? <ShipmentSummary /> : agent_exist === "Y" ?<ShipmentSummaryForAgent agentData={agentData} />:"",
     QuoteDetails: <QuoteDetails />,
-    Documents: <ShipmentDocuments />,
+    Documents: <ShipmentDocuments agentData={agentData} />,
     Milestones: (
       <>
         <p
@@ -120,7 +127,7 @@ const ShipmentBase = ({ open, close, rowData }) => {
         >
           Origin Milestones
         </p>
-        <StepperColumn step={OriginMilestones} />
+        <StepperColumn step={ agent_exist === "N" ?OriginMilestones:agentData && agentData?.milestone_origin} />
         <p
           style={{
             fontWeight: "600",
@@ -132,7 +139,7 @@ const ShipmentBase = ({ open, close, rowData }) => {
         >
           Transit Milestones
         </p>
-        <StepperColumn step={TransitMilestones} />
+        <StepperColumn step={agent_exist === "N" ?TransitMilestones:agentData && agentData?.milestone_transit} />
         <p
           style={{
             fontWeight: "600",
@@ -144,7 +151,7 @@ const ShipmentBase = ({ open, close, rowData }) => {
         >
           Destination Milestones
         </p>
-        <StepperColumn step={DestinationMilestones} />
+        <StepperColumn step={agent_exist === "N" ?DestinationMilestones:agentData && agentData?.milestone_destination} />
       </>
     ),
   };
@@ -252,7 +259,7 @@ const ShipmentBase = ({ open, close, rowData }) => {
       {/* <VscClose size={22} color='red' role='button' onClick={()=>close(false)} style={{position:"absolute",top:"0px",right:"-22px"}} /> */}
       <Dialogs
         open={open}
-        onClose={() => close(false)}
+        onClose={() => {return close(false),setAgentData(null)}}
         aria-labelledby="responsive-dialog-title"
         id="edit_profile_modal_section"
         maxWidth={"xl"}
@@ -262,7 +269,7 @@ const ShipmentBase = ({ open, close, rowData }) => {
             size={22}
             color="black"
             role="button"
-            onClick={() => close(false)}
+            onClick={() => {return close(false),setAgentData(null)}}
             style={{ position: "absolute", top: "0px", right: "10px" }}
           />
           {
@@ -271,7 +278,7 @@ const ShipmentBase = ({ open, close, rowData }) => {
           
           {agent_exist === "Y" && (
             <div className="d-flex gap-3">
-              <ShipmentSideNav />
+              <ShipmentSideNav rowData={rowData} agentContainerData={agentContainerData} setAgentData={setAgentData} />
               <ShipmentTable
                 contentListNoTitle={contentListNoTitle}
                 tabListNoTitle={tabListNoTitle}

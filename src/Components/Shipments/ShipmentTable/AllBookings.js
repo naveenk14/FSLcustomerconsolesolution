@@ -249,6 +249,7 @@ const AllBookings = ({
   };
 
   const actionBodyTemplate = (rowData) => {
+    console.log(rowData)
     let buttonLabel;
     let btnClass;
     if (rowData.action === "Track") {
