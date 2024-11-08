@@ -26,7 +26,8 @@ import DeliveryReducer from './DeleiveryReducer';
 import ContainerPackReducer from './ContainerPackReducer';
 import InvoiceCashReducer from './InvoiceCashReducer';
 import agentexistReducer from './AgentExistReducer';
-import agentContainerReducer from './AgentContainerRequest';
+import agentContainerReducer from './AgentContainerReducer';
+import ViewContainerReducer from './ViewContainerReducer';
 
 const rootReducer = combineReducers({
     ShipmentCount: shipmentCountReducer,
@@ -58,7 +59,9 @@ const rootReducer = combineReducers({
     ContainerPack: ContainerPackReducer,
     InvoiceC:InvoiceCashReducer,
     AgentExist: agentexistReducer,
-    AgentContainerList: agentContainerReducer
+    AgentContainerList: agentContainerReducer,
+    ViewContainer: ViewContainerReducer,
+
 });
 
 export default rootReducer;

@@ -1,13 +1,24 @@
 import { Card } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './ShipmentTable.css'
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { ViewContainerAction } from '../../../Redux/Actions/ViewContainerAction';
 
 const ShipmentTable = ({tabListNoTitle,contentListNoTitle,setVesselmodalopen,close,rowDatas}) => {
 
-    const booking_id = rowDatas?.id;
-    console.log("rowdtas",booking_id)
+    const container_id = rowDatas?.container?.split("|")[1];
+    const dispatch = useDispatch()
+    // const container_id = "CAIU2841472"
+    // const viewContainerData = useSelector((state) => state.ViewContainer)
+    // console.log(viewContainerData)
+    // const rowData = viewContainerData?.container[0]
+
+    useEffect(() => {
+      dispatch(ViewContainerAction({container_id}))
+    }, [])
+
+    
 
     const [activeTabKey, setActiveTabKey] = useState('Milestones');
         const onTab2Change = (key) => {
@@ -19,7 +30,7 @@ const ShipmentTable = ({tabListNoTitle,contentListNoTitle,setVesselmodalopen,clo
       close(false)
     }
 
-    //This is for mode logic
+    // This is for mode logic
     // const ShipmentData = useSelector((state) => state.Booking);
     // const Booking = ShipmentData?.booking?.data;
     // const fileteredMilestone = Booking?.filter((item) => item.id === booking_id);

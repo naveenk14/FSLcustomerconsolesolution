@@ -32,19 +32,19 @@ const ShipmentTabs = ({
   importCount,
   transshipmentCount,
 }) => {
-  return (
-    <Tabs
-      activeKey={activeTab}
-      onChange={onTabChange}
-      centered
-      tabBarStyle={{ marginBottom: "16px" }}
-    >
-      <Tabs.TabPane tab={`Import (${importCount})`} key="Import" />
-      <Tabs.TabPane
-        tab={`Transhipment (${transshipmentCount})`}
-        key="Transshipment"
-      />
-    </Tabs>
+  return (""
+    // <Tabs
+    //   activeKey={activeTab}
+    //   onChange={onTabChange}
+    //   centered
+    //   tabBarStyle={{ marginBottom: "16px" }}
+    // >
+    //   <Tabs.TabPane tab={`Import (${importCount})`} key="Import" />
+    //   <Tabs.TabPane
+    //     tab={`Transhipment (${transshipmentCount})`}
+    //     key="Transshipment"
+    //   />
+    // </Tabs>
   );
 };
 

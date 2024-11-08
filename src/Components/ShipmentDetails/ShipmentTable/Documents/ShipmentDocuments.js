@@ -6,10 +6,9 @@ import { useSelector } from "react-redux";
 // import { Button } from "antd";
 import { Link } from "react-router-dom";
 
-const ShipmentDocuments = () => {
-  const bookingData = useSelector((state) => state.ViewBooking);
-  console.log("bookingData", bookingData);
-  const Documents = bookingData?.viewBookingData?.documents;
+const ShipmentDocuments = ({agentData}) => {
+  
+  const Documents = agentData && agentData?.documents;
   console.log("document", Documents);
 
   //This is for Checkbox logic
