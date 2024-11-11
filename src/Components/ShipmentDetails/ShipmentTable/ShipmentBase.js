@@ -54,9 +54,11 @@ const ShipmentBase = ({ open, close, rowData }) => {
   const agentContainerData = useSelector((state) => state.ViewContainer);
   const { agent_exist } = useSelector((state) => state.AgentExist);
   console.log(agent_exist);
-  console.log(agentContainerData)
-  const [agentData, setAgentData] = useState(agentContainerData?.viewContainerData?.container?.[0])
-  console.log(agentData)
+  console.log(agentContainerData);
+  const [agentData, setAgentData] = useState(
+    agentContainerData?.viewContainerData?.container?.[0]
+  );
+  console.log(agentData);
 
   const tabListNoTitle = [
     // {
@@ -111,47 +113,134 @@ const ShipmentBase = ({ open, close, rowData }) => {
   const contentListNoTitle = {
     // PendingActions: <PendingActionsBase />,
     // PendingActions: <TabBase />,
-    ShipmentSummary: agent_exist === "N" ? <ShipmentSummary /> : agent_exist === "Y" ?<ShipmentSummaryForAgent agentData={agentData} />:"",
+    ShipmentSummary:
+      agent_exist === "N" ? (
+        <ShipmentSummary />
+      ) : agent_exist === "Y" ? (
+        <ShipmentSummaryForAgent agentData={agentData} />
+      ) : (
+        ""
+      ),
     QuoteDetails: <QuoteDetails />,
     Documents: <ShipmentDocuments agentData={agentData} />,
     Milestones: (
       <>
-        <p
-          style={{
-            fontWeight: "600",
-            fontSize: "15px",
-            lineHeight: "17px",
-            letterSpacing: ".01em",
-            margin: "15px 0px",
-          }}
-        >
-          Origin Milestones
-        </p>
-        <StepperColumn step={ agent_exist === "N" ?OriginMilestones:agentData && agentData?.milestone_origin} />
-        <p
-          style={{
-            fontWeight: "600",
-            fontSize: "15px",
-            lineHeight: "17px",
-            letterSpacing: ".01em",
-            margin: "15px 0px",
-          }}
-        >
-          Transit Milestones
-        </p>
-        <StepperColumn step={agent_exist === "N" ?TransitMilestones:agentData && agentData?.milestone_transit} />
-        <p
-          style={{
-            fontWeight: "600",
-            fontSize: "15px",
-            lineHeight: "17px",
-            letterSpacing: ".01em",
-            margin: "15px 0px",
-          }}
-        >
-          Destination Milestones
-        </p>
-        <StepperColumn step={agent_exist === "N" ?DestinationMilestones:agentData && agentData?.milestone_destination} />
+        {agent_exist === "Y" && agentData?.milestone_origin?.length > 0 && (
+          <p
+            style={{
+              fontWeight: "600",
+              fontSize: "15px",
+              lineHeight: "17px",
+              letterSpacing: ".01em",
+              margin: "15px 0px",
+            }}
+          >
+            Origin Milestones
+          </p>
+        )}
+        {agent_exist === "N" &&
+          OriginMilestones &&
+          OriginMilestones?.length > 0 && (
+            <p
+              style={{
+                fontWeight: "600",
+                fontSize: "15px",
+                lineHeight: "17px",
+                letterSpacing: ".01em",
+                margin: "15px 0px",
+              }}
+            >
+              Origin Milestones
+            </p>
+          )}
+        <StepperColumn
+          step={
+            agent_exist === "N"
+              ? OriginMilestones
+              : agentData && agentData?.milestone_origin
+          }
+        />
+        {agent_exist === "Y" && agentData?.milestone_transit?.length > 0 && (
+          <p
+            style={{
+              fontWeight: "600",
+              fontSize: "15px",
+              lineHeight: "17px",
+              letterSpacing: ".01em",
+              margin: "15px 0px",
+            }}
+          >
+            Transit Milestones
+          </p>
+        )}
+        {agent_exist === "N" &&
+          TransitMilestones &&
+          TransitMilestones?.length > 0 && (
+            <p
+              style={{
+                fontWeight: "600",
+                fontSize: "15px",
+                lineHeight: "17px",
+                letterSpacing: ".01em",
+                margin: "15px 0px",
+              }}
+            >
+              Transit Milestones
+            </p>
+          )}
+        <StepperColumn
+          step={
+            agent_exist === "N"
+              ? TransitMilestones
+              : agentData && agentData?.milestone_transit
+          }
+        />
+        {agent_exist === "Y" &&
+          agentData?.milestone_destination?.length > 0 && (
+            <p
+              style={{
+                fontWeight: "600",
+                fontSize: "15px",
+                lineHeight: "17px",
+                letterSpacing: ".01em",
+                margin: "15px 0px",
+              }}
+            >
+              Destination Milestones
+            </p>
+          )}
+        {agent_exist === "N" &&
+          DestinationMilestones &&
+          DestinationMilestones.length > 0 && (
+            <p
+              style={{
+                fontWeight: "600",
+                fontSize: "15px",
+                lineHeight: "17px",
+                letterSpacing: ".01em",
+                margin: "15px 0px",
+              }}
+            >
+              Destination Milestones
+            </p>
+          )}
+        <StepperColumn
+          step={
+            agent_exist === "N"
+              ? DestinationMilestones
+              : agentData && agentData?.milestone_destination
+          }
+        />
+        {agent_exist === "N" &&
+          !DestinationMilestones.length > 0 &&
+          !TransitMilestones?.length > 0 &&
+          !OriginMilestones?.length > 0 &&
+          <p className="py-5 mb-5 text-center">No Documents to Display</p>}
+        {agent_exist === "Y" &&
+          !agentData?.milestone_transit.length > 0 &&
+          !agentData?.milestone_origin?.length > 0 &&
+          !agentData?.milestone_destination?.length > 0 &&
+          <p className="py-5 mb-5 text-center">No Documents to Display</p>}
       </>
     ),
   };
@@ -259,7 +348,9 @@ const ShipmentBase = ({ open, close, rowData }) => {
       {/* <VscClose size={22} color='red' role='button' onClick={()=>close(false)} style={{position:"absolute",top:"0px",right:"-22px"}} /> */}
       <Dialogs
         open={open}
-        onClose={() => {return close(false),setAgentData(null)}}
+        onClose={() => {
+          return close(false), setAgentData(null);
+        }}
         aria-labelledby="responsive-dialog-title"
         id="edit_profile_modal_section"
         maxWidth={"xl"}
@@ -269,16 +360,22 @@ const ShipmentBase = ({ open, close, rowData }) => {
             size={22}
             color="black"
             role="button"
-            onClick={() => {return close(false),setAgentData(null)}}
+            onClick={() => {
+              return close(false), setAgentData(null);
+            }}
             style={{ position: "absolute", top: "0px", right: "10px" }}
           />
-          {
-            agent_exist === "N" && <ShipmentHeader rowDatas={rowData} close={close} />
-          }
-          
+          {agent_exist === "N" && (
+            <ShipmentHeader rowDatas={rowData} close={close} />
+          )}
+
           {agent_exist === "Y" && (
             <div className="d-flex gap-3">
-              <ShipmentSideNav rowData={rowData} agentContainerData={agentContainerData} setAgentData={setAgentData} />
+              <ShipmentSideNav
+                rowData={rowData}
+                agentContainerData={agentContainerData}
+                setAgentData={setAgentData}
+              />
               <ShipmentTable
                 contentListNoTitle={contentListNoTitle}
                 tabListNoTitle={tabListNoTitle}

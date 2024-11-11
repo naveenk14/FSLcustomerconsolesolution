@@ -3,27 +3,33 @@ import { Card, Row, Col, Tag, Tabs, Tooltip } from "antd";
 import "./ShipmentSideNav.css";
 import ShipmentSidebarArrow from "../../../../assets/ShipmentSibarArrow.svg";
 import CountryFlag from "../../../Core-Components/CountryFlag";
+import { Height } from "@mui/icons-material";
 
 const ShipmentCard = ({
   item,
   setAgentData,
+  index,
+  selected,
+  setSelected
+
 }) => {
+
 
 
   return (
     <Card
       className="shipment__sidebarcard p-0"
-      style={{ marginBottom: 3 }}
-      onClick={()=>setAgentData(item)}
+      style={{ marginBottom: 3,background:index === selected ? "#CFF1FF" : "white" }}
+      onClick={()=>{return setAgentData(item),setSelected(index)}}
     >
       <Row align="middle" style={{ width: "100%", padding: "0px" }}>
-        <Col span={14} style={{ fontSize: "14px", fontWeight: "500" }}>
+        <Col span={14} style={{ fontSize: "14px", fontWeight: "500",fontFamily: "Roboto" }}>
           {item?.booking_id}
         </Col>
         <Col span={7} style={{ textAlign: "right" }}>
           <Tag
             className="shipmentsidebartag"
-            style={{ width: "109px", textAlign: "center" }}
+            style={{ width: "109px", textAlign: "center",fontFamily: "Roboto" }}
             color={item?.trade === "IMPORT" ? "green" : "blue"}
           >
             {item?.trade}
@@ -33,9 +39,9 @@ const ShipmentCard = ({
       <Row style={{ marginTop: "5px" }}>
         <Col span={24} style={{ fontSize: "14px" }}>
           <span style={{ marginRight: "25px" }}>
-            <CountryFlag countryCode={item?.origin_countrycode} />{" "}
+            <CountryFlag countryCode={item?.origin_countrycode} styleData={{marginRight:"8px",width:"unset",height:"11px",boxShadow: "1px 1px 3px 1px black"}}  />
             {item?.origin?.length <= 10 ? (
-              item?.origin
+             item?.origin
             ) : (
               <Tooltip placement="topLeft" zIndex={9999} title={item?.origin}>
                 <span role="button">{item?.origin.slice(0, 9)?.trim() + "..."}</span>
@@ -44,7 +50,7 @@ const ShipmentCard = ({
           </span>
           <img src={ShipmentSidebarArrow} alt="Arrow" />
           <span style={{ marginLeft: "25px" }}>
-            <CountryFlag countryCode={item?.destination_countrycode} />{" "}
+            <CountryFlag countryCode={item?.destination_countrycode} styleData={{marginRight:"8px",width:"unset",height:"11px",boxShadow: "1px 1px 3px 1px black"}}  />
             {item?.destination?.length <= 10 ? (
               item?.destination
             ) : (
@@ -69,6 +75,7 @@ const ShipmentSidNav = ({ rowData, agentContainerData, setAgentData }) => {
   const data = agentContainerData?.viewContainerData?.container;
   const count = agentContainerData?.viewContainerData?.statuswise_count;
   console.log(data);
+  const [selected, setSelected] = useState(0)
 
   // Filter data based on the selected tab
   // const getFilteredData = (status) => {
@@ -105,6 +112,8 @@ const ShipmentSidNav = ({ rowData, agentContainerData, setAgentData }) => {
     } else {
       setAgentData(null); // Clear if there's no item
     }
+    setSelected(0)
+    
   }, [filteredData && activeTab]);
 
 
@@ -116,6 +125,7 @@ const ShipmentSidNav = ({ rowData, agentContainerData, setAgentData }) => {
         maxWidth: "290px",
         background: "#F8FAFC",
         borderRadius: "6px",
+        minHeight:"400px"
       }}
     >
       <Tabs
@@ -152,6 +162,9 @@ const ShipmentSidNav = ({ rowData, agentContainerData, setAgentData }) => {
             key={index}
             item = {item}
             setAgentData={setAgentData}
+            index={index}
+            selected={selected}
+            setSelected={setSelected}
           />
         ))}
       </div>

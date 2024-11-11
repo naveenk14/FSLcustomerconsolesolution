@@ -73,11 +73,11 @@ const ShipmentDocuments = ({agentData}) => {
               <tr>
                 <th>
                   <div className="checkbox d-inline">
-                    <CustomCheckBox
+                    {Documents?.length>0 && <CustomCheckBox
                       value={allcheck}
                       checked={allcheck}
                       onChange={handleAllCheckBoxes}
-                    />
+                    />}
                   </div>
                   <span style={{ marginLeft: "29px" }}>Document/Type</span>
                 </th>

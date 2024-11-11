@@ -176,7 +176,7 @@ function App() {
 
     const timeout = setTimeout(() => {
       if (!jwtToken) {
-        window.location.href = "http://www.freightsystems.com";
+        window.location.href = "https://www.consol-solutions.com/";
       }
     }, 5000);
 
