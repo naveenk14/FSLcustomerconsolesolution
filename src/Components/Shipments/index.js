@@ -34,8 +34,8 @@ const ShipmentsHome = ({ showmap, setShowmap, showText, setShowText }) => {
       }}
     >
       <div style={{ backgroundColor: "white" }}>
-        <div style={{ width: "1255px" }} className="shipmentIndex pb-4 mx-auto">
-          {!showText ? (
+        <div style={{ width: "1255px" }} className="shipmentIndex pb-5 mx-auto">
+          {/* {!showText ? (
             showmap ? (
               <div className="py-4 d-flex justify-content-end gap-1">
                 <div style={{ cursor: "pointer" }}>
@@ -76,7 +76,7 @@ const ShipmentsHome = ({ showmap, setShowmap, showText, setShowText }) => {
           ) : (
             ""
           )}
-          {showText ? "" : showmap && <Map />}
+          {showText ? "" : showmap && <Map />} */}
         </div>
       </div>
 

@@ -9,13 +9,16 @@ const ShipmentTable = ({tabListNoTitle,contentListNoTitle,setVesselmodalopen,clo
 
     const container_id = rowDatas?.container?.split("|")[1];
     const dispatch = useDispatch()
+    const { agent_exist } = useSelector((state) => state.AgentExist);
     // const container_id = "CAIU2841472"
     // const viewContainerData = useSelector((state) => state.ViewContainer)
     // console.log(viewContainerData)
     // const rowData = viewContainerData?.container[0]
 
     useEffect(() => {
-      dispatch(ViewContainerAction({container_id}))
+      if(agent_exist === "Y"){
+        dispatch(ViewContainerAction({container_id}))
+      }
     }, [])
 
     
@@ -44,7 +47,7 @@ const ShipmentTable = ({tabListNoTitle,contentListNoTitle,setVesselmodalopen,clo
             width:"100%",
             boxShadow: "0px 6px 18px 0px #0000001A"
           }}
-          className='mx-auto p-0 mb-4 shipment_table_section'
+          className='mx-auto p-0 shipment_table_section'
           tabList={tabListNoTitle}
           activeTabKey={activeTabKey}
           onTabChange={onTab2Change}
