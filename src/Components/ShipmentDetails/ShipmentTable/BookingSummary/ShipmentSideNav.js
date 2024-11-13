@@ -122,14 +122,14 @@ const ShipmentSidNav = ({ rowData, agentContainerData, setAgentData }) => {
       className="tabshadow border shadow"
       style={{
         width: "100%",
-        maxWidth: "290px",
+        maxWidth: "303px",
         background: "#F8FAFC",
         borderRadius: "6px",
         minHeight:"400px"
       }}
     >
       <Tabs
-        className="d-flex align-items-start"
+        className="d-flex align-items-center "
         activeKey={activeTab}
         onChange={setActiveTab}
         centered

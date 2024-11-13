@@ -235,12 +235,12 @@ const ShipmentBase = ({ open, close, rowData }) => {
           !DestinationMilestones.length > 0 &&
           !TransitMilestones?.length > 0 &&
           !OriginMilestones?.length > 0 &&
-          <p className="py-5 mb-5 text-center">No Documents to Display</p>}
+          <p className="py-5 mb-5 text-center">No records to Display</p>}
         {agent_exist === "Y" &&
           !agentData?.milestone_transit.length > 0 &&
           !agentData?.milestone_origin?.length > 0 &&
           !agentData?.milestone_destination?.length > 0 &&
-          <p className="py-5 mb-5 text-center">No Documents to Display</p>}
+          <p className="py-5 mb-5 text-center">No records to Display</p>}
       </>
     ),
   };
