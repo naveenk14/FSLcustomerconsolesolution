@@ -24,7 +24,7 @@ const ShipmentCard = ({
     >
       <Row align="middle" style={{ width: "100%", padding: "0px" }}>
         <Col span={14} style={{ fontSize: "14px", fontWeight: "500",fontFamily: "Roboto" }}>
-          {item?.booking_id}
+          {item?.hbl_number}
         </Col>
         <Col span={7} style={{ textAlign: "right" }}>
           <Tag
@@ -37,8 +37,8 @@ const ShipmentCard = ({
         </Col>
       </Row>
       <Row style={{ marginTop: "5px" }}>
-        <Col span={24} style={{ fontSize: "14px" }}>
-          <span style={{ marginRight: "25px" }}>
+        <Col className="d-flex align-items-center" span={24} style={{ fontSize: "14px" }}>
+          <p className="m-0" style={{ marginRight: "25px",width: "100px" }}>
             <CountryFlag countryCode={item?.origin_countrycode} styleData={{marginRight:"8px",width:"unset",height:"11px",boxShadow: "1px 1px 3px 1px black"}}  />
             {item?.origin?.length <= 10 ? (
              item?.origin
@@ -47,20 +47,20 @@ const ShipmentCard = ({
                 <span role="button">{item?.origin.slice(0, 9)?.trim() + "..."}</span>
               </Tooltip>
             )}
-          </span>
-          <img src={ShipmentSidebarArrow} alt="Arrow" />
-          <span style={{ marginLeft: "25px" }}>
+          </p>
+          <img src={ShipmentSidebarArrow} alt="Arrow" style={{margin:"0px 20px"}} />
+          <p className="m-0" style={{ marginLeft: "25px",width: "120px" }}>
             <CountryFlag countryCode={item?.destination_countrycode} styleData={{marginRight:"8px",width:"unset",height:"11px",boxShadow: "1px 1px 3px 1px black"}}  />
-            {item?.destination?.length <= 10 ? (
+            {item?.destination?.length <= 9 ? (
               item?.destination
             ) : (
               <Tooltip placement="topLeft" zIndex={9999} title={item?.destination}>
                 <span role="button">
-                  {item?.destination.slice(0, 9)?.trim() + "..."}
+                  {item?.destination.slice(0, 8)?.trim() + "..."}
                 </span>
               </Tooltip>
             )}
-          </span>
+          </p>
         </Col>
       </Row>
     </Card>
