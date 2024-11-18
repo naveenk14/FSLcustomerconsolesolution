@@ -4,6 +4,10 @@ import "./ShipmentSideNav.css";
 import ShipmentSidebarArrow from "../../../../assets/ShipmentSibarArrow.svg";
 import CountryFlag from "../../../Core-Components/CountryFlag";
 import { Height } from "@mui/icons-material";
+import { useSelector } from "react-redux";
+import { Box } from "@mui/material";
+import shipgif from "../../../../assets/shipbg-gif.gif";
+
 
 const ShipmentCard = ({
   item,
@@ -14,7 +18,7 @@ const ShipmentCard = ({
 
 }) => {
 
-
+  
 
   return (
     <Card
@@ -27,13 +31,13 @@ const ShipmentCard = ({
           {item?.hbl_number}
         </Col>
         <Col span={7} style={{ textAlign: "right" }}>
-          <Tag
+          {/* <Tag
             className="shipmentsidebartag"
             style={{ width: "109px", textAlign: "center",fontFamily: "Roboto" }}
             color={item?.trade === "IMPORT" ? "green" : "blue"}
           >
             {item?.trade}
-          </Tag>
+          </Tag> */}
         </Col>
       </Row>
       <Row style={{ marginTop: "5px" }}>
@@ -84,7 +88,7 @@ const ShipmentSidNav = ({ rowData, agentContainerData, setAgentData }) => {
 
     // Filtered data based on active tab
     const filteredData = data?.filter((item) => item?.trade === activeTab);
-    console.log(filteredData)
+    console.log(filteredData?.length)
 
   // Counts for the tabs
   // const importCount = getFilteredData(
@@ -116,6 +120,26 @@ const ShipmentSidNav = ({ rowData, agentContainerData, setAgentData }) => {
     
   }, [filteredData && activeTab]);
 
+  
+  const {loading} = useSelector((state) => state.ViewContainer);
+
+  // if (loading ){
+  //   return (
+  //     <Box
+  //       sx={{
+  //         display: "flex",
+  //         justifyContent: "center",
+  //         alignItems: "center",
+  //         height: "353px",
+  //         // alignSelf:"center"
+  //       }}
+  //     >
+  //       {/* <CircularProgress style={{ color: "red" }} /> */}
+  //       <img src={shipgif} width="140px" height="140px" />
+  //     </Box>
+  //   );
+  // }
+
 
   return (
     <div
@@ -136,7 +160,7 @@ const ShipmentSidNav = ({ rowData, agentContainerData, setAgentData }) => {
         tabBarStyle={{ marginBottom: "9px" }}
       >
         <Tabs.TabPane
-          tab={`${rowData?.export_import} (${
+          tab={`${rowData?.export_import=== "Export" ? "Import" :rowData?.export_import=== "Import" ? "Export": "" } (${
             count?.[0]?.[
               rowData?.export_import === "Export" ? "EXPORT" : "IMPORT"
             ] || "0"
@@ -148,6 +172,18 @@ const ShipmentSidNav = ({ rowData, agentContainerData, setAgentData }) => {
           key="TRANSIT"
         />
       </Tabs>
+      {loading ? <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "353px",
+          // alignSelf:"center"
+        }}
+      >
+        {/* <CircularProgress style={{ color: "red" }} /> */}
+        <img src={shipgif} width="140px" height="140px" />
+      </Box>:
       <div
         className="shipmentsidebar"
         style={{
@@ -157,7 +193,7 @@ const ShipmentSidNav = ({ rowData, agentContainerData, setAgentData }) => {
           background: "#F3F5F7",
         }}
       >
-        {filteredData?.map((item,index) => (
+        {filteredData?.length ? filteredData?.map((item,index) => (
           <ShipmentCard
             key={index}
             item = {item}
@@ -166,8 +202,13 @@ const ShipmentSidNav = ({ rowData, agentContainerData, setAgentData }) => {
             selected={selected}
             setSelected={setSelected}
           />
-        ))}
-      </div>
+        )):
+        <div className="d-flex align-items-center justify-content-center" style={{height:"350px"}}>
+            <p className="m-0" style={{textAlign:"center"}}>No datas found</p>
+        </div>
+        }
+      </div>}
+      {filteredData?.length < 0 && <p>No datas found</p>}
     </div>
   );
 };
