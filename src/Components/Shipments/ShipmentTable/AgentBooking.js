@@ -317,12 +317,7 @@ const AgentBookings = ({
     return (
       <div className="origin-cell" style={{ textAlign: "start" }}>
         <CountryFlag
-          styleData={{
-            boxShadow:
-              rowData?.origin_countrycode === "SG"
-                ? "1px 1px 5px rgba(0,0,0,0.3"
-                : "",
-          }}
+          styleData={{marginRight:"8px",width:"unset",height:"11px",boxShadow: "1px 1px 3px 1px black"}} 
           countryCode={rowData?.origin_countrycode}
         />
         <span
@@ -350,7 +345,7 @@ const AgentBookings = ({
   const destinationBodyTemplate = (rowData) => {
     return (
       <div className="origin-cell" style={{ textAlign: "start" }}>
-        <CountryFlag countryCode={rowData?.destination_countrycode} />
+        <CountryFlag countryCode={rowData?.destination_countrycode} styleData={{marginRight:"8px",width:"unset",height:"11px",boxShadow: "1px 1px 3px 1px black"}}  />
         <span
           style={{ paddingLeft: "8px", fontWeight: "400", textWrap: "wrap" }}
         >
@@ -372,64 +367,65 @@ const AgentBookings = ({
     );
   };
   const bodyTemplate = (rowData) => {
-    // const { actual_departure, estimated_departure } = rowData;
-    // // Variable to store the result
-    // let dayDifference = "";
+    const { actual_departure, estimated_departure } = rowData;
+    console.log(rowData)
+    // Variable to store the result
+    let dayDifference = "";
 
-    // // Check if either date is empty
-    // if (actual_departure && estimated_departure) {
-    //   // Convert to Date objects
-    //   const actualDate = new Date(actual_departure);
-    //   const estimatedDate = new Date(estimated_departure);
+    // Check if either date is empty
+    if (actual_departure && estimated_departure) {
+      // Convert to Date objects
+      const actualDate = new Date(actual_departure);
+      const estimatedDate = new Date(estimated_departure);
 
-    //   // Calculate the time difference in milliseconds
-    //   const timeDifference = actualDate - estimatedDate;
+      // Calculate the time difference in milliseconds
+      const timeDifference = actualDate - estimatedDate;
 
-    //   // Convert milliseconds to days
-    //   dayDifference = timeDifference / (1000 * 60 * 60 * 24);
-    // }
+      // Convert milliseconds to days
+      dayDifference = timeDifference / (1000 * 60 * 60 * 24);
+    }
 
-    // const getDepartMessage = () => {
-    //   if (dayDifference === "") return null;
-    //   if (dayDifference === 0) return { color: "#00c500" };
-    //   if (dayDifference > 0) return { color: "red" };
-    //   if (dayDifference < 0) return { color: "#00c500" };
-    // };
+    const getDepartMessage = () => {
+      if (dayDifference === "") return null;
+      if (dayDifference === 0) return { color: "#00c500" };
+      if (dayDifference > 0) return { color: "red" };
+      if (dayDifference < 0) return { color: "#00c500" };
+    };
 
-    // const departInfo = getDepartMessage();
-    // const EtdTitle = () => {
-    //   if (dayDifference === "") return null;
-    //   if (dayDifference === 0) return <div>Departed On-time</div>;
-    //   if (dayDifference > 0)
-    //     return (
-    //       <div>
-    //         Departed Late{" "}
-    //         <span style={{ color: "red", fontWeight: "700" }}>
-    //           {" "}
-    //           (+{dayDifference} days)
-    //         </span>
-    //       </div>
-    //     );
-    //   if (dayDifference < 0)
-    //     return (
-    //       <div>
-    //         Departed Early{" "}
-    //         <span style={{ color: "#00c500", fontWeight: "700" }}>
-    //           ({dayDifference} days)
-    //         </span>
-    //       </div>
-    //     );
-    // };
+    const departInfo = getDepartMessage();
+    const EtdTitle = () => {
+      if (dayDifference === "") return null;
+      if (dayDifference === 0) return <div>Departed On-time</div>;
+      if (dayDifference > 0)
+        return (
+          <div>
+            Departed Late{" "}
+            <span style={{ color: "red", fontWeight: "700" }}>
+              {" "}
+              (+{dayDifference} days)
+            </span>
+          </div>
+        );
+      if (dayDifference < 0)
+        return (
+          <div>
+            Departed Early{" "}
+            <span style={{ color: "#00c500", fontWeight: "700" }}>
+              ({dayDifference} days)
+            </span>
+          </div>
+        );
+    };
     return (
       <div className="message">
         <span
           style={{
-            // color: departInfo ? departInfo.color : "",
-            color:"rgba(24, 30, 37, 1)"
+            color: departInfo ? departInfo.color : "",
+            // color:"rgba(24, 30, 37, 1)"
             // fontWeight: "500",
           }}
         >
-          {/* {departInfo ? (
+          {departInfo ? (
             <Tooltip
               placement="topLeft"
               title={
@@ -442,76 +438,76 @@ const AgentBookings = ({
                 </span>
               }
             >
-              <span role="button">{rowData?.Arrival}</span>
-            </Tooltip> */}
-          {/* ) : ( */}
-          {  rowData?.Arrival}
-          {/* )} */}
+              <span role="button">{rowData?.departure}</span>
+            </Tooltip>
+           ) : ( 
+            rowData?.departure
+           )} 
         </span>
       </div>
     );
   };
 
   const bodyTemplateEta = (rowData) => {
-    // const { actuval_arrival, estimated_arrival } = rowData;
-    // // Variable to store the result
-    // let dayDifference = "";
+    const { actuval_arrival, estimated_arrival } = rowData;
+    // Variable to store the result
+    let dayDifference = "";
 
-    // // Check if either date is empty
-    // if (actuval_arrival && estimated_arrival) {
-    //   // Convert to Date objects
-    //   const actualDate = new Date(actuval_arrival);
-    //   const estimatedDate = new Date(estimated_arrival);
+    // Check if either date is empty
+    if (actuval_arrival && estimated_arrival) {
+      // Convert to Date objects
+      const actualDate = new Date(actuval_arrival);
+      const estimatedDate = new Date(estimated_arrival);
 
-    //   // Calculate the time difference in milliseconds
-    //   const timeDifference = actualDate - estimatedDate;
+      // Calculate the time difference in milliseconds
+      const timeDifference = actualDate - estimatedDate;
 
-    //   // Convert milliseconds to days
-    //   dayDifference = timeDifference / (1000 * 60 * 60 * 24);
-    // }
+      // Convert milliseconds to days
+      dayDifference = timeDifference / (1000 * 60 * 60 * 24);
+    }
 
-    // console.log(dayDifference); // Will print the result or an empty string
+    console.log(dayDifference); // Will print the result or an empty string
 
-    // const getArrivalMessage = () => {
-    //   if (dayDifference === "") return null;
-    //   if (dayDifference === 0) return { color: "#00c500" };
-    //   if (dayDifference > 0) return { color: "red" };
-    //   if (dayDifference < 0) return { color: "#00c500" };
-    // };
-    // const arrivalInfo = getArrivalMessage();
-    // const EtaTitle = () => {
-    //   if (dayDifference === "") return null;
-    //   if (dayDifference === 0) return <div>Arrived On-time</div>;
-    //   if (dayDifference > 0)
-    //     return (
-    //       <div>
-    //         Arrived Late{" "}
-    //         <span style={{ color: "red", fontWeight: "700" }}>
-    //           {" "}
-    //           (+{dayDifference} days)
-    //         </span>
-    //       </div>
-    //     );
-    //   if (dayDifference < 0)
-    //     return (
-    //       <div>
-    //         Arrived Early{" "}
-    //         <span style={{ color: "#00c500", fontWeight: "700" }}>
-    //           ({dayDifference} days)
-    //         </span>
-    //       </div>
-    //     );
-    // };
+    const getArrivalMessage = () => {
+      if (dayDifference === "") return null;
+      if (dayDifference === 0) return { color: "#00c500" };
+      if (dayDifference > 0) return { color: "red" };
+      if (dayDifference < 0) return { color: "#00c500" };
+    };
+    const arrivalInfo = getArrivalMessage();
+    const EtaTitle = () => {
+      if (dayDifference === "") return null;
+      if (dayDifference === 0) return <div>Arrived On-time</div>;
+      if (dayDifference > 0)
+        return (
+          <div>
+            Arrived Late{" "}
+            <span style={{ color: "red", fontWeight: "700" }}>
+              {" "}
+              (+{dayDifference} days)
+            </span>
+          </div>
+        );
+      if (dayDifference < 0)
+        return (
+          <div>
+            Arrived Early{" "}
+            <span style={{ color: "#00c500", fontWeight: "700" }}>
+              ({dayDifference} days)
+            </span>
+          </div>
+        );
+    };
     return (
       <div className="message">
         <span
           style={{
-            // color: arrivalInfo ? arrivalInfo.color : "",
-            // fontWeight: "500",
-            color:"rgba(24, 30, 37, 1)"
+            color: arrivalInfo ? arrivalInfo.color : "",
+            fontWeight: "500",
+            // color:"rgba(24, 30, 37, 1)"
           }}
         >
-          {/* {arrivalInfo ? (
+          {arrivalInfo ? (
             <Tooltip
               placement="topLeft"
               title={
@@ -524,11 +520,11 @@ const AgentBookings = ({
                 </span>
               }
             >
-              <span role="button">{rowData?.unloading_date}</span>
+              <span role="button">{rowData?.Arrival}</span>
             </Tooltip>
-          ) : ( */}
-           { rowData?.unloading_date}
-          {/* )} */}
+          ) : (
+           rowData?.Arrival
+          )}
         </span>
       </div>
     );
@@ -915,6 +911,7 @@ const AgentBookings = ({
               {sort("departure")}
             </span>
           }
+          body={bodyTemplate}
           style={{ paddingRight: "14px" }}
         ></Column>
         <Column
@@ -926,7 +923,8 @@ const AgentBookings = ({
               {sort("Arrival")}
             </span>
           }
-          body={bodyTemplate}
+         
+          body={bodyTemplateEta}
           bodyClassName="custom-cell"
           style={{ paddingRight: "14px" }}
         ></Column>
@@ -939,7 +937,7 @@ const AgentBookings = ({
               {sort("unloading_date")}
             </span>
           }
-          body={bodyTemplateEta}
+          
           bodyClassName="custom-cell"
           // style={{ paddingRight: "5px" }}
         ></Column>

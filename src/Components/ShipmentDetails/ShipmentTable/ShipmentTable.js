@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ViewContainerAction } from '../../../Redux/Actions/ViewContainerAction';
 
 const ShipmentTable = ({tabListNoTitle,contentListNoTitle,setVesselmodalopen,close,rowDatas}) => {
-
     const container_id = rowDatas?.container?.split("|")[1];
     const dispatch = useDispatch()
     const { agent_exist } = useSelector((state) => state.AgentExist);

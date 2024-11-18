@@ -15,30 +15,78 @@ export const SearchHeader = ({ bookingData }) => {
   const [searchvalue, setSearchvalue] = useState("");
   const [filterdata, setFilterData] = useState("");
   const [searchHistory, setSearchHistory] = useState([]); // New state for storing search history
+  console.log(bookingData)
 
   const handleSubmit = (e) => {
     if (e.key === "Enter" || e.type === "click") {
-      console.log(searchvalue);
-      const filteredId = bookingData?.data?.filter(
-        (item) =>
-          searchvalue === item?.id ||
-          searchvalue === item?.order_no ||
-          searchvalue === item?.hbl_number
-      );
-      console.log(filteredId, "item");
-      if (filteredId.length) {
-        setFilterData(filteredId);
-        setmodal(true);
-        setNotfoundmodal(false);
-        setSearchHistory((prevState) => [...prevState, searchvalue]);
-        // setSearchvalue("");
-      } else {
-        setmodal(false);
-        setNotfoundmodal(true);
-        console.log("not exist");
+      
+      if(agent_exist === "N"){
+        const filteredId = bookingData?.data?.filter(
+          (item) =>
+            searchvalue === item?.id ||
+            searchvalue === item?.order_no ||
+            searchvalue === item?.hbl_number
+        );
+        console.log(filteredId, "item");
+        if (filteredId.length) {
+          setFilterData(filteredId);
+          setmodal(true);
+          setNotfoundmodal(false);
+          setSearchHistory((prevState) => [...prevState, searchvalue]);
+          // setSearchvalue("");
+        } else {
+          setmodal(false);
+          setNotfoundmodal(true);
+          console.log("not exist");
+        }
       }
+      else{
+        console.log("agent yes")
+        console.log("search value",searchvalue);
+        const filteredId = bookingData?.data?.filter(
+          (item) =>
+            searchvalue === item?.container?.split("|")?.[1]
+        );
+        console.log(filteredId, "item");
+        if (filteredId.length) {
+          setFilterData(filteredId);
+          setmodal(true);
+          setNotfoundmodal(false);
+          setSearchHistory((prevState) => [...prevState, searchvalue]);
+          // setSearchvalue("");
+        } else {
+          setmodal(false);
+          setNotfoundmodal(true);
+          console.log("not exist");
+        }
+      }
+      
     }
   };
+
+  //  const handleSubmitForAgent =()=>{
+  //   if (e.key === "Enter" || e.type === "click") {
+  //     console.log(searchvalue);
+  //     const filteredId = bookingData?.data?.filter(
+  //       (item) =>
+  //         searchvalue === item?.id ||
+  //         searchvalue === item?.order_no ||
+  //         searchvalue === item?.hbl_number
+  //     );
+  //     console.log(filteredId, "item");
+  //     if (filteredId.length) {
+  //       setFilterData(filteredId);
+  //       setmodal(true);
+  //       setNotfoundmodal(false);
+  //       setSearchHistory((prevState) => [...prevState, searchvalue]);
+  //       // setSearchvalue("");
+  //     } else {
+  //       setmodal(false);
+  //       setNotfoundmodal(true);
+  //       console.log("not exist");
+  //     }
+  //   }
+  //  }
 
   const Shipmentpopup = () => {
     return (

@@ -252,7 +252,7 @@ export const Port = () => {
                               </div>
                               <div>
                                 <p className="portnamecode ">
-                                  {port?.port_name}-{port?.air_port_code}
+                                  {port?.list_value}
                                 </p>
                                 <p className="portCountry">
                                   {port?.port_country}

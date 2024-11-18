@@ -343,9 +343,9 @@ function BookingTabsForAgent({ showText, setShowText, setShowmap }) {
     window.scrollTo(0, 0);
   }, []);
   const tabs = [
-    { label: `Export (${schedule?.EXPORT ? schedule?.EXPORT : 0})`, key: "1" },
+    { label: `Import (${schedule?.EXPORT ? schedule?.EXPORT : 0})`, key: "1" },
     {
-      label: `Import (${schedule?.IMPORT ? schedule?.IMPORT : 0})`,
+      label: `Export (${schedule?.IMPORT ? schedule?.IMPORT : 0})`,
       key: "2",
     },
     // {
