@@ -4,21 +4,23 @@ import './ShipmentTable.css'
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { ViewContainerAction } from '../../../Redux/Actions/ViewContainerAction';
+import { Box } from '@mui/material';
+import shipgif from "../../../assets/shipbg-gif.gif";
 
 const ShipmentTable = ({tabListNoTitle,contentListNoTitle,setVesselmodalopen,close,rowDatas}) => {
-    const container_id = rowDatas?.container?.split("|")[1];
-    const dispatch = useDispatch()
+    // const container_id = rowDatas?.container?.split("|")[1];
+    // const dispatch = useDispatch()
     const { agent_exist } = useSelector((state) => state.AgentExist);
     // const container_id = "CAIU2841472"
     // const viewContainerData = useSelector((state) => state.ViewContainer)
     // console.log(viewContainerData)
     // const rowData = viewContainerData?.container[0]
 
-    useEffect(() => {
-      if(agent_exist === "Y"){
-        dispatch(ViewContainerAction({container_id}))
-      }
-    }, [])
+    // useEffect(() => {
+    //   if(agent_exist === "Y"){
+    //     dispatch(ViewContainerAction({container_id}))
+    //   }
+    // }, [])
 
     
 
@@ -39,6 +41,25 @@ const ShipmentTable = ({tabListNoTitle,contentListNoTitle,setVesselmodalopen,clo
     // console.log("mode", fileteredMilestone);
     // const mode = fileteredMilestone[0]?.mode
     // console.log(mode)
+
+  //    if (loading ){
+  //   return (
+  //     <Box
+  //       sx={{
+  //         display: "flex",
+  //         justifyContent: "center",
+  //         alignItems: "center",
+  //         height: "353px",
+  //         // alignSelf:"center"
+  //       }}
+  //     >
+  //       {/* <CircularProgress style={{ color: "red" }} /> */}
+  //       <img src={shipgif} width="140px" height="140px" />
+  //     </Box>
+  //   );
+  // }
+
+
 
   return (
     <Card

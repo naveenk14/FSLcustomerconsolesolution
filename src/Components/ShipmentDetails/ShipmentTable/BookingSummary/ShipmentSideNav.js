@@ -72,13 +72,14 @@ const ShipmentCard = ({
 };
 
 const ShipmentSidNav = ({ rowData, agentContainerData, setAgentData }) => {
-  const [activeTab, setActiveTab] = useState(
-    rowData?.export_import === "Export" ? "EXPORT" : "IMPORT"
-  );
-  console.log(activeTab);
+
   const data = agentContainerData?.viewContainerData?.container;
   const count = agentContainerData?.viewContainerData?.statuswise_count;
   console.log(data);
+  const [activeTab, setActiveTab] = useState(
+    count[0]?.hasOwnProperty("EXPORT") ? "EXPORT" : "IMPORT"
+  );
+  console.log(activeTab);
   const [selected, setSelected] = useState(0)
 
   // Filter data based on the selected tab
@@ -121,7 +122,7 @@ const ShipmentSidNav = ({ rowData, agentContainerData, setAgentData }) => {
   }, [filteredData && activeTab]);
 
   
-  const {loading} = useSelector((state) => state.ViewContainer);
+  // const {loading} = useSelector((state) => state.ViewContainer);
 
   // if (loading ){
   //   return (
@@ -160,30 +161,18 @@ const ShipmentSidNav = ({ rowData, agentContainerData, setAgentData }) => {
         tabBarStyle={{ marginBottom: "9px" }}
       >
         <Tabs.TabPane
-          tab={`${rowData?.export_import=== "Export" ? "Import" :rowData?.export_import=== "Import" ? "Export": "" } (${
+          tab={`${count[0]?.hasOwnProperty("EXPORT") ? "Import" :count[0]?.hasOwnProperty("IMPORT") ? "Export": "Export" } (${
             count?.[0]?.[
-              rowData?.export_import === "Export" ? "EXPORT" : "IMPORT"
+              count[0]?.hasOwnProperty("EXPORT")? "EXPORT" : "IMPORT"
             ] || "0"
           })`}
-          key={`${rowData?.export_import === "Export" ? "EXPORT" : "IMPORT"}`}
+          key={`${count[0]?.hasOwnProperty("EXPORT") ? "EXPORT" : "IMPORT"}`}
         />
         <Tabs.TabPane
           tab={`Transhipment (${count?.[0]?.["TRANSIT"] || "0"})`}
           key="TRANSIT"
         />
       </Tabs>
-      {loading ? <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "353px",
-          // alignSelf:"center"
-        }}
-      >
-        {/* <CircularProgress style={{ color: "red" }} /> */}
-        <img src={shipgif} width="140px" height="140px" />
-      </Box>:
       <div
         className="shipmentsidebar"
         style={{
@@ -191,6 +180,7 @@ const ShipmentSidNav = ({ rowData, agentContainerData, setAgentData }) => {
           maxWidth: "301px",
           border: "1px solid #E7E8F2",
           background: "#F3F5F7",
+          height:"calc(100% - 66px)"
         }}
       >
         {filteredData?.length ? filteredData?.map((item,index) => (
@@ -203,11 +193,11 @@ const ShipmentSidNav = ({ rowData, agentContainerData, setAgentData }) => {
             setSelected={setSelected}
           />
         )):
-        <div className="d-flex align-items-center justify-content-center" style={{height:"350px"}}>
+        <div className="d-flex align-items-center justify-content-center" style={{height:"100%"}}>
             <p className="m-0" style={{textAlign:"center"}}>No datas found</p>
         </div>
         }
-      </div>}
+      </div>
       {filteredData?.length < 0 && <p>No datas found</p>}
     </div>
   );

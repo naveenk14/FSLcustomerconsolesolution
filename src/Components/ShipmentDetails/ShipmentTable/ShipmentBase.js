@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ShipmentHeader from "./ShipmentHeader";
 import StepperColumn from "./Track/StepperColumn";
 import { Breadcrumb, Button, Card, Dropdown } from "antd";
@@ -16,9 +16,9 @@ import { IoMdChatboxes } from "react-icons/io";
 import { FaPhoneVolume } from "react-icons/fa6";
 import { IoMail } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ShipmentDetailsModal from "./Modal/ShipmentDetailsModal";
-import { Dialog, DialogContent, styled } from "@mui/material";
+import { Box, Dialog, DialogContent, styled } from "@mui/material";
 import { makeStyles } from "@emotion/styled";
 import ShipmentSummary from "./BookingSummary/ShipmentSummary";
 import ShipmentSummaryForAgent from "./BookingSummary/ShipmentSummaryForAgent";
@@ -27,6 +27,8 @@ import { VscClose } from "react-icons/vsc";
 import { Widgets } from "@mui/icons-material";
 import ShipmentSideNav from "./BookingSummary/ShipmentSideNav";
 import "./BookingSummary/ShipmentSideNav.css";
+import shipgif from "../../../assets/shipbg-gif.gif";
+import { ViewContainerAction } from "../../../Redux/Actions/ViewContainerAction";
 
 const Dialogs = styled(Dialog)({
   "& .MuiDialog-paper": {
@@ -37,8 +39,9 @@ const Dialogs = styled(Dialog)({
   },
 });
 
-const ShipmentBase = ({ open, close, rowData }) => {
+const ShipmentBase = ({ open, close, rowData, searchvalue }) => {
   console.log("rowData", rowData);
+  const dispatch = useDispatch()
   // const rowDatas = rowData
   const bookingData = useSelector((state) => state.ViewBooking);
   console.log("bookingData", bookingData);
@@ -50,15 +53,35 @@ const ShipmentBase = ({ open, close, rowData }) => {
     bookingData?.viewBookingData?.milestone_destination;
   console.log("OriginMilestones", OriginMilestones);
 
+
   //for View Container Agent
   const agentContainerData = useSelector((state) => state.ViewContainer);
   const { agent_exist } = useSelector((state) => state.AgentExist);
+  const {loading} = useSelector((state) => state.ViewContainer);
   console.log(agent_exist);
   console.log(agentContainerData);
   const [agentData, setAgentData] = useState(
     agentContainerData?.viewContainerData?.container?.[0]
   );
   console.log(agentData);
+  const container_id = rowData ? rowData?.container?.split("|")[1] : searchvalue
+  console.log(container_id)
+    
+  function isObject(variable) {
+    return variable !== null && typeof variable === 'object' && !Array.isArray(variable);
+  }
+
+
+  useEffect(() => {
+    if(agent_exist === "Y" && isObject(rowData)){
+      console.log("test")
+      dispatch(ViewContainerAction({container_id}))
+    }else if(agent_exist === "Y" && searchvalue ){
+      dispatch(ViewContainerAction({container_id}))
+    }
+  }, [rowData])
+
+
 
   const tabListNoTitle = [
     // {
@@ -234,13 +257,15 @@ const ShipmentBase = ({ open, close, rowData }) => {
         {agent_exist === "N" &&
           !DestinationMilestones.length > 0 &&
           !TransitMilestones?.length > 0 &&
-          !OriginMilestones?.length > 0 &&
-          <p className="py-5 mb-5 text-center">No records to Display</p>}
+          !OriginMilestones?.length > 0 && (
+            <p className="py-5 mb-5 text-center">No records to Display</p>
+          )}
         {agent_exist === "Y" &&
           !agentData?.milestone_transit.length > 0 &&
           !agentData?.milestone_origin?.length > 0 &&
-          !agentData?.milestone_destination?.length > 0 &&
-          <p className="py-5 mb-5 text-center">No records to Display</p>}
+          !agentData?.milestone_destination?.length > 0 && (
+            <p className="py-5 mb-5 text-center">No records to Display</p>
+          )}
       </>
     ),
   };
@@ -285,6 +310,24 @@ const ShipmentBase = ({ open, close, rowData }) => {
   ];
 
   const [vesselmodalopen, setVesselmodalopen] = useState(false);
+
+    
+  // if (loading ){
+  //   return (
+  //     <Box
+  //       sx={{
+  //         display: "flex",
+  //         justifyContent: "center",
+  //         alignItems: "center",
+  //         height: "353px",
+  //         // alignSelf:"center"
+  //       }}
+  //     >
+  //       {/* <CircularProgress style={{ color: "red" }} /> */}
+  //       <img src={shipgif} width="140px" height="140px" />
+  //     </Box>
+  //   );
+  // }
 
   return (
     // <div className="shipment_details_section container-fluid p-0" style={{marginTop:"4.7rem",backgroundColor: "#F3F5F7"}} >
@@ -369,22 +412,38 @@ const ShipmentBase = ({ open, close, rowData }) => {
             <ShipmentHeader rowDatas={rowData} close={close} />
           )}
 
-          {agent_exist === "Y" && (
-            <div className="d-flex gap-3">
-              <ShipmentSideNav
-                rowData={rowData}
-                agentContainerData={agentContainerData}
-                setAgentData={setAgentData}
-              />
-              <ShipmentTable
-                contentListNoTitle={contentListNoTitle}
-                tabListNoTitle={tabListNoTitle}
-                setVesselmodalopen={setVesselmodalopen}
-                close={close}
-                rowDatas={rowData}
-              />
-            </div>
-          )}
+          {agent_exist === "Y" && !loading ? (
+            <>
+              {/* {!loading ? ( */}
+                <div className="d-flex gap-3">
+                  <ShipmentSideNav
+                    rowData={rowData}
+                    agentContainerData={agentContainerData}
+                    setAgentData={setAgentData}
+                  />
+                  <ShipmentTable
+                    contentListNoTitle={contentListNoTitle}
+                    tabListNoTitle={tabListNoTitle}
+                    setVesselmodalopen={setVesselmodalopen}
+                    close={close}
+                    rowDatas={rowData}
+                  />
+                </div>
+            
+            </>
+          ):<Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "100%",
+                  // alignSelf:"center"
+                }}
+              >
+                {/* <CircularProgress style={{ color: "red" }} /> */}
+                <img src={shipgif} width="140px" height="140px" />
+              </Box>
+          }
           {agent_exist === "N" && (
             <ShipmentTable
               contentListNoTitle={contentListNoTitle}
@@ -394,6 +453,7 @@ const ShipmentBase = ({ open, close, rowData }) => {
               rowDatas={rowData}
             />
           )}
+
           {/* <ShipmentTable contentListNoTitle={contentListNoTitle} tabListNoTitle={tabListNoTitle} setVesselmodalopen={setVesselmodalopen} close={close} rowDatas={rowData}  /> */}
           {/* <VscClose size={22} color='black' role='button' onClick={()=>close(false)} style={{position:"absolute",top:"0px",right:"-22px"}} /> */}
         </DialogContent>
