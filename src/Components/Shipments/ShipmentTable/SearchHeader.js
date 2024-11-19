@@ -7,6 +7,7 @@ import { Dialog, DialogContent } from "@mui/material";
 import Search from "../../../assets/SearchVector.svg";
 import { FaArrowCircleRight } from "react-icons/fa";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 export const SearchHeader = ({ bookingData }) => {
   const { agent_exist } = useSelector((state) => state.AgentExist);
@@ -43,22 +44,28 @@ export const SearchHeader = ({ bookingData }) => {
       else{
         console.log("agent yes")
         console.log("search value",searchvalue);
-        const filteredId = bookingData?.data?.filter(
-          (item) =>
-            searchvalue === item?.container?.split("|")?.[1]
-        );
-        console.log(filteredId, "item");
-        if (filteredId.length) {
-          setFilterData(filteredId);
+        // const filteredId = bookingData?.data?.filter(
+        //   (item) =>
+        //     searchvalue === item?.container?.split("|")?.[1]
+        // );
+        // console.log(filteredId, "item");
+        // if (filteredId.length) {
+        //   setFilterData(filteredId);
+        if(searchvalue){
           setmodal(true);
-          setNotfoundmodal(false);
-          setSearchHistory((prevState) => [...prevState, searchvalue]);
-          // setSearchvalue("");
-        } else {
-          setmodal(false);
-          setNotfoundmodal(true);
-          console.log("not exist");
         }
+        else{
+          toast.error("Please Enter the value")
+        }
+          
+        //   setNotfoundmodal(false);
+        //   setSearchHistory((prevState) => [...prevState, searchvalue]);
+        //   // setSearchvalue("");
+        // } else {
+        //   setmodal(false);
+        //   setNotfoundmodal(true);
+        //   console.log("not exist");
+        // }
       }
       
     }
@@ -90,7 +97,7 @@ export const SearchHeader = ({ bookingData }) => {
 
   const Shipmentpopup = () => {
     return (
-      <ShipmentBase open={modal} close={setmodal} rowData={filterdata[0]} />
+      <ShipmentBase open={modal} close={setmodal} rowData={filterdata[0]} searchvalue={searchvalue} />
     );
   };
 
