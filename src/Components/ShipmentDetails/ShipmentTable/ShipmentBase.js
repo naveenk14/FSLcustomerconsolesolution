@@ -234,7 +234,7 @@ const ShipmentBase = ({ open, close, rowData, searchvalue }) => {
           )}
         {agent_exist === "N" &&
           DestinationMilestones &&
-          DestinationMilestones.length > 0 && (
+          DestinationMilestones?.length > 0 && (
             <p
               style={{
                 fontWeight: "600",
@@ -255,13 +255,13 @@ const ShipmentBase = ({ open, close, rowData, searchvalue }) => {
           }
         />
         {agent_exist === "N" &&
-          !DestinationMilestones.length > 0 &&
+          !DestinationMilestones?.length > 0 &&
           !TransitMilestones?.length > 0 &&
           !OriginMilestones?.length > 0 && (
             <p className="py-5 mb-5 text-center">No records to Display</p>
           )}
         {agent_exist === "Y" &&
-          !agentData?.milestone_transit.length > 0 &&
+          !agentData?.milestone_transit?.length > 0 &&
           !agentData?.milestone_origin?.length > 0 &&
           !agentData?.milestone_destination?.length > 0 && (
             <p className="py-5 mb-5 text-center">No records to Display</p>
@@ -431,7 +431,7 @@ const ShipmentBase = ({ open, close, rowData, searchvalue }) => {
                 </div>
             
             </>
-          ):<Box
+          ):agent_exist === "Y" && loading ?<Box
                 sx={{
                   display: "flex",
                   justifyContent: "center",
@@ -443,7 +443,7 @@ const ShipmentBase = ({ open, close, rowData, searchvalue }) => {
                 {/* <CircularProgress style={{ color: "red" }} /> */}
                 <img src={shipgif} width="140px" height="140px" />
               </Box>
-          }
+          :""}
           {agent_exist === "N" && (
             <ShipmentTable
               contentListNoTitle={contentListNoTitle}
