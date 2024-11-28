@@ -255,7 +255,7 @@ const ShipmentBase = ({ open, close, rowData, searchvalue }) => {
           }
         />
         {agent_exist === "N" &&
-          !DestinationMilestones.length > 0 &&
+          !DestinationMilestones?.length > 0 &&
           !TransitMilestones?.length > 0 &&
           !OriginMilestones?.length > 0 && (
             <p className="py-5 mb-5 text-center">No records to Display</p>
