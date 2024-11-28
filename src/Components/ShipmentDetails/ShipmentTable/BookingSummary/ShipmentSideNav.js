@@ -18,12 +18,10 @@ const ShipmentCard = ({
 
 }) => {
 
-  
-
-  return (
+return (
     <Card
       className="shipment__sidebarcard p-0"
-      style={{ marginBottom: 3,background:index === selected ? "#CFF1FF" : "white" }}
+      style={{ marginBottom: 3,background:index === selected ? "#CFF1FF" : "white",cursor:"pointer" }}
       onClick={()=>{return setAgentData(item),setSelected(index)}}
     >
       <Row align="middle" style={{ width: "100%", padding: "0px" }}>
@@ -42,19 +40,21 @@ const ShipmentCard = ({
       </Row>
       <Row style={{ marginTop: "5px" }}>
         <Col className="d-flex align-items-center" span={24} style={{ fontSize: "14px" }}>
-          <p className="m-0" style={{ marginRight: "25px",width: "100px" }}>
-            <CountryFlag countryCode={item?.origin_countrycode} styleData={{marginRight:"8px",width:"unset",height:"11px",boxShadow: "1px 1px 3px 1px black"}}  />
-            {item?.origin?.length <= 10 ? (
+          <p className="m-0" style={{ marginRight: "25px",width: "100px",display:"flex" }}>
+            <CountryFlag countryCode={item?.origin_countrycode} styleData={{marginRight:"8px", marginTop:"4px",width:"unset",height:"11px",boxShadow: "1px 1px 3px 1px black"}}  />
+            {item?.origin?.length <=9 ? (
              item?.origin
-            ) : (
+            ) : item?.origin ? (
               <Tooltip placement="topLeft" zIndex={9999} title={item?.origin}>
                 <span role="button">{item?.origin.slice(0, 9)?.trim() + "..."}</span>
               </Tooltip>
-            )}
+              ) : (
+                "N/A" // Fallback text for undefined or null origin
+              )}
           </p>
           <img src={ShipmentSidebarArrow} alt="Arrow" style={{margin:"0px 20px"}} />
-          <p className="m-0" style={{ marginLeft: "25px",width: "120px" }}>
-            <CountryFlag countryCode={item?.destination_countrycode} styleData={{marginRight:"8px",width:"unset",height:"11px",boxShadow: "1px 1px 3px 1px black"}}  />
+          <p className="m-0" style={{ marginLeft: "25px",width: "120px",marginBottom:"10px",display:"flex" }}>
+            <CountryFlag countryCode={item?.destination_countrycode} styleData={{marginRight:"8px",width:"unset",height:"11px",boxShadow: "1px 1px 3px 1px black",marginTop:"4px"}}  />
             {item?.destination?.length <= 9 ? (
               item?.destination
             ) : (
@@ -77,7 +77,7 @@ const ShipmentSidNav = ({ rowData, agentContainerData, setAgentData }) => {
   const count = agentContainerData?.viewContainerData?.statuswise_count;
   console.log(data);
   const [activeTab, setActiveTab] = useState(
-    count[0]?.hasOwnProperty("EXPORT") ? "EXPORT" : "IMPORT"
+    count[0]?.hasOwnProperty("EXPORT") ? "EXPORT":count[0]?.hasOwnProperty("IMPORT")?"IMPORT":"TRANSIT"
   );
   console.log(activeTab);
   const [selected, setSelected] = useState(0)
