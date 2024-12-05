@@ -23,7 +23,11 @@ import { toast } from "react-toastify";
 
 function BookingTabs({ showText, setShowText, setShowmap }) {
   const [searchQuery] = useState("");
-  const [data, setData] = useState([]);
+  const dispatch = useDispatch();
+  const ShipmentData = useSelector((state) => state.Booking);
+  const bookingData = ShipmentData?.booking;
+  const tabCount = ShipmentData?.booking?.statuswise_count
+  const [data, setData] = useState(bookingData && bookingData?.data);
   const [schedulemodal, setSchedulemodal] = useState(false);
   const [selectedButton, setSelectedButton] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -41,10 +45,6 @@ function BookingTabs({ showText, setShowText, setShowmap }) {
   const [showMore, setshowMore] = useState(false)
   const [showAllData, setshowAllData] = useState(false)
   const [scrollHeight, setscrollHeight] = useState("653px")
-  const dispatch = useDispatch();
-  const ShipmentData = useSelector((state) => state.Booking);
-  const bookingData = ShipmentData?.booking;
-  const tabCount = ShipmentData?.booking?.statuswise_count
   const [popoverVisible, setPopoverVisible] = useState(false); // State to control Popover visibility
   const [dsrpopoverVisible, setDsrPopoverVisible] = useState(false); // State to control Popover visibility
   // const saveSuccess = useSelector((state) => state?.SaveDsr?.savedsr?.Response);
@@ -71,7 +71,7 @@ function BookingTabs({ showText, setShowText, setShowmap }) {
   };
 
   useEffect(() => {
-    const newFilteredData = data.filter((item) =>
+    const newFilteredData = data && data.filter((item) =>
       item.id.toLowerCase().includes(searchQuery.toLowerCase())
     );
     setFilteredData(newFilteredData);

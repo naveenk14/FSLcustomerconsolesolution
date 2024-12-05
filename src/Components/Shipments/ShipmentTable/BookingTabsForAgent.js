@@ -25,7 +25,16 @@ import AgentBookings from "./AgentBooking";
 
 function BookingTabsForAgent({ showText, setShowText, setShowmap }) {
   const [searchQuery] = useState("");
-  const [data, setData] = useState([]);
+  const dispatch = useDispatch();
+  const AgentCLData = useSelector((state) => state.AgentContainerList);
+  console.log(AgentCLData)
+  const bookingData = AgentCLData?.agent_container_list;
+  // const bookingData = bookingDatas;
+  console.log("bookingData", bookingData);
+  // console.log("bookingDatas", bookingDatas);
+  const tabCount = AgentCLData?.agent_container_list?.statuswise_count;
+  console.log(tabCount, bookingData);
+  const [data, setData] = useState(bookingData && bookingData?.data);
   console.log(data);
   const [schedulemodal, setSchedulemodal] = useState(false);
   const [selectedButton, setSelectedButton] = useState(null);
@@ -44,15 +53,7 @@ function BookingTabsForAgent({ showText, setShowText, setShowmap }) {
   const [showMore, setshowMore] = useState(false);
   const [showAllData, setshowAllData] = useState(false);
   const [scrollHeight, setscrollHeight] = useState("653px");
-  const dispatch = useDispatch();
-  const AgentCLData = useSelector((state) => state.AgentContainerList);
-  console.log(AgentCLData)
-  const bookingData = AgentCLData?.agent_container_list;
-  // const bookingData = bookingDatas;
-  console.log("bookingData", bookingData);
-  // console.log("bookingDatas", bookingDatas);
-  const tabCount = AgentCLData?.agent_container_list?.statuswise_count;
-  console.log(tabCount, bookingData);
+  
   const [popoverVisible, setPopoverVisible] = useState(false); // State to control Popover visibility
   const [dsrpopoverVisible, setDsrPopoverVisible] = useState(false); // State to control Popover visibility
   // const saveSuccess = useSelector((state) => state?.SaveDsr?.savedsr?.Response);
@@ -575,6 +576,7 @@ function BookingTabsForAgent({ showText, setShowText, setShowmap }) {
               setscrollHeight={setscrollHeight}
               popoverVisible={popoverVisible}
               setPopoverVisible={setPopoverVisible}
+              bookingData={bookingData}
             />
           ) : (
             <DailyReportTable

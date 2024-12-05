@@ -40,6 +40,7 @@ const AgentBookings = ({
   setscrollHeight,
   popoverVisible,
   setPopoverVisible,
+  bookingData
 }) => {
   const itemsPerPage = 5;
   const dispatch = useDispatch();
@@ -53,6 +54,8 @@ const AgentBookings = ({
   // const [scrollHeight, setscrollHeight] = useState("653px")
   const [selectfield, setselectfield] = useState("");
   console.log(showMore);
+  let initdata = bookingData?.data?.filter((x)=>x.export_import === "Export")
+  console.log(initdata)
   const [tblFilter, setTblFilter] = useState({
     id: [],
     loading_date: [],
@@ -422,7 +425,7 @@ const AgentBookings = ({
           style={{
             color: departInfo ? departInfo.color : "",
             // color:"rgba(24, 30, 37, 1)"
-            // fontWeight: "500",
+            fontWeight: "500",
           }}
         >
           {departInfo ? (
@@ -591,8 +594,8 @@ const AgentBookings = ({
   //       10
 
   //     );
-  const paginatedData = showAllData ? filteredData : filteredData;
-  console.log(paginatedData)
+  // const paginatedData = showAllData ? filteredData : filteredData;
+  // console.log(paginatedData)
   const noData = () => {
     return (
       <div
@@ -813,7 +816,7 @@ const AgentBookings = ({
         </div>
       )}
       <DataTable
-        value={paginatedData}
+        value={filteredData ? filteredData : initdata}
         // reorderableColumns
         // reorderableRows
         // onRowReorder={(e) => setFilteredData(e.value)}

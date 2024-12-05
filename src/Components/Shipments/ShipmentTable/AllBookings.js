@@ -86,7 +86,7 @@ const AllBookings = ({
   }, [filterValue, filterMonthValue]);
 
   useEffect(() => {
-    const filterDataTable = filterData
+    const filterDataTable = filterData && filterData
       .map((item, index) => ({
         key: index,
         ...item,
@@ -593,8 +593,8 @@ const AllBookings = ({
   //       10
 
   //     );
-  const paginatedData = showAllData ? filteredData : filteredData;
-  console.log(paginatedData)
+  // const paginatedData = showAllData ? filteredData : filteredData;
+  // console.log(paginatedData)
   const noData = () => {
     return (
       <div
@@ -607,9 +607,9 @@ const AllBookings = ({
   };
 
   
-  console.log(loading,paginatedData)
+  console.log(loading)
   console.log(filterData)
-  if ((loading && paginatedData?.length === 0) || (!loading && paginatedData?.length === 0)){
+  if (loading){
     return (
       <Box
         sx={{
@@ -625,10 +625,10 @@ const AllBookings = ({
       </Box>
     );
   }
-  else if(!loading && paginatedData?.length === 0){
-    console.log("worked")
-    return;
-  }
+  // else if(!loading && paginatedData?.length === 0){
+  //   console.log("worked")
+  //   return;
+  // }
   const FilterTag = ({ field, filterValues, handleChangeFilter }) => {
     const popoverRef = useRef(null); // Reference for the popover
     const handleClick = (field) => {
@@ -825,7 +825,7 @@ const AllBookings = ({
         </div>
       )}
       <DataTable
-        value={paginatedData}
+        value={filteredData ? filteredData : bookingData?.data}
         // reorderableColumns
         // reorderableRows
         // onRowReorder={(e) => setFilteredData(e.value)}

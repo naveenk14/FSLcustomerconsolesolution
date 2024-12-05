@@ -431,7 +431,7 @@ const ShipmentBase = ({ open, close, rowData, searchvalue }) => {
                 </div>
             
             </>
-          ):agent_exist === "Y" && loading ?<Box
+          ):(agent_exist === "Y" && loading) ?<Box
                 sx={{
                   display: "flex",
                   justifyContent: "center",
