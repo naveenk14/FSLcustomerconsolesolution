@@ -126,20 +126,28 @@ function BookingTabs({ showText, setShowText, setShowmap }) {
   //   console.log("download");
   //   dispatch(DsrDownloadRequest({ payloadofdsrdownload }));
   // };
-
+  const DsrReportData = useSelector((state) => state.DsrReport.dsrData);
+  console.log(DsrReportData)
+  const [selectedColumns, setSelectedColumns] = useState(DsrReportData?.columns); // State to manage selected columns
+  console.log(selectedColumns)
   let sselectcolumn = "";
-  const filteredCol = Object?.keys(filtercolumn || {})?.filter(
-    (k) => filtercolumn[k]
-  );
-  const filteredColCopy = { ...filteredCol };
-  if (filteredColCopy && typeof filteredColCopy === "object") {
-    sselectcolumn = Object?.values(filteredColCopy)?.join(",");
-  } else {
-    console.error(
-      "filtercolumn is not defined or not an object:",
-      filteredColCopy
-    );
+  // const filteredCol = Object?.keys(filtercolumn || {})?.filter(
+  //   (k) => filtercolumn[k]
+  // );
+  // const filteredColCopy = { ...filteredCol };
+  // if (filteredColCopy && typeof filteredColCopy === "object") {
+  //   sselectcolumn = Object?.values(filteredColCopy)?.join(",");
+  // } else {
+  //   console.error(
+  //     "filtercolumn is not defined or not an object:",
+  //     filteredColCopy
+  //   );
+  // }
+  if(selectedColumns){
+    sselectcolumn = selectedColumns?.join(",")
   }
+  console.log(sselectcolumn)
+
   const payload = {
     sserialno: Profileusertoken,
     sselectcolumn: sselectcolumn,
@@ -201,8 +209,17 @@ function BookingTabs({ showText, setShowText, setShowmap }) {
   console.log(schedule)
 
   const exportExcel = () => {
+    // Prepare data based on selected column order
+    const excelData = DsrReportData?.data?.map((row) => {
+      const orderedRow = {};
+      selectedColumns.forEach((col) => {
+          orderedRow[col] = row[col]; // Add data in the order of selected columns
+      });
+      return orderedRow;
+  });
+
     import("xlsx").then((xlsx) => {
-      const worksheet = xlsx.utils.json_to_sheet(download);
+      const worksheet = xlsx.utils.json_to_sheet(excelData);
       const workbook = { Sheets: { data: worksheet }, SheetNames: ["data"] };
       const excelBuffer = xlsx.write(workbook, {
         bookType: "xlsx",
@@ -210,6 +227,24 @@ function BookingTabs({ showText, setShowText, setShowmap }) {
       });
 
       saveAsExcelFile(excelBuffer, "download");
+    });
+  };
+
+  const saveAsExcelFile = (buffer, fileName) => {
+    import("file-saver").then((module) => {
+      if (module && module.default) {
+        let EXCEL_TYPE =
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+        let EXCEL_EXTENSION = ".xlsx";
+        const data = new Blob([buffer], {
+          type: EXCEL_TYPE,
+        });
+
+        module.default.saveAs(
+          data,
+          fileName + "_export_" + new Date().getTime() + EXCEL_EXTENSION
+        );
+      }
     });
   };
 
@@ -252,24 +287,6 @@ function BookingTabs({ showText, setShowText, setShowmap }) {
   console.log(schedule?.all,activeTab)
   console.log(activeTab)
   console.log(showMore)
-
-  const saveAsExcelFile = (buffer, fileName) => {
-    import("file-saver").then((module) => {
-      if (module && module.default) {
-        let EXCEL_TYPE =
-          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
-        let EXCEL_EXTENSION = ".xlsx";
-        const data = new Blob([buffer], {
-          type: EXCEL_TYPE,
-        });
-
-        module.default.saveAs(
-          data,
-          fileName + "_export_" + new Date().getTime() + EXCEL_EXTENSION
-        );
-      }
-    });
-  };
 
   const handleUpcomingDep = () => {
     setSelectedButton("Upcoming Departures");
@@ -583,12 +600,14 @@ function BookingTabs({ showText, setShowText, setShowmap }) {
             />
           ) : (
             <DailyReportTable
-              filtercolumn={filtercolumn}
-              setfiltercolumn={setfiltercolumn}
+              // filtercolumn={filtercolumn}
+              // setfiltercolumn={setfiltercolumn}
               filterReport={filterReport}
               setFilterReport={setFilterReport}
-              setdownload={setdownload}
-              download={download}
+              selectedColumns={selectedColumns}
+              setSelectedColumns={setSelectedColumns}
+              // setdownload={setdownload}
+              // download={download}
               dsrpopoverVisible={dsrpopoverVisible}
               setDsrPopoverVisible={setDsrPopoverVisible}
             />
